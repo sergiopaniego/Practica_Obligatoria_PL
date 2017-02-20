@@ -14,8 +14,9 @@
 %eof}
 
 
-%standalone
+%standalone //ghfdga
 
+das
 PROGRAM = PART PROGRAM | PART
 PART = TYPE RESTPART
 RESTPART = ident "(" LISTPARAM ")" BLQ
