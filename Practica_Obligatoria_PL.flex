@@ -37,8 +37,9 @@ HexReal={HexInt}"."{HexDigit}+
 Hex={HexReal}|{HexInt}
 
 %%
-
-{Identifier}	{System.out.println(<Iden>);}
+"//".*[^.] {System.out.println("comentary");}//habria que meter \n
+"/*"[^"*/"]*"*/" {System.out.println("comentary");}
+{Identifier}	{System.out.println("<Iden>");}
 {Octal}	{System.out.println("Octal");}
 {Integer}	{System.out.println("Integer");}
 {Real}	{System.out.println("Real");}
