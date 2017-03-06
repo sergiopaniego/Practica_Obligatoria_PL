@@ -14,28 +14,25 @@
 %eof}
 
 
-%standalone 
-PROGRAM = PART PROGRAM | PART
-PART = TYPE RESTPART
-RESTPART = ident "(" LISTPARAM ")" BLQ
-BLQ = "{" SENTLIST "}"
-LISTPARAM = LISTPARAM "," TYPE ident | TYPE ident
-TYPE = "void" | "int" | "float"
+%standalone
 
-SENTLIST = SENTLIST SENT | SENT
-SENT = TYPE LID ";" | ident "=" EXP ";" | ident "(" LEXP ")" ";" | "return" EXP ";"
-LID = ident | LID "," ident
-LEXP = EXP | LEXP "," EXP
-EXP = EXP OP EXP | FACTOR
-OP = "+" | "-" | "*" | "/" | "%"
-FACTOR = ident "(" LEXP ")" | "(" EXP ")" | ident | constint | constfloat
- | constlit
-
+hexDigit=[A-Fa-f0-9]
+hexInt={sign}"0x"{hexDigit}+
+hexReal={hexInt}"."{hexDigit}+
+hex={hexReal}|{hexInt}
 Letter= [A-Za-z]
 Symbol=[A-Za-z0-9]|"$"|"_"
-iden=({Letter}|"$"){Symbol}+
-
+iden=({Letter}|"$"){Symbol}*
+sign=("+"|"-")
+dec={integer}|{real}
+integer={sign}*[0-9]+
+real={sign}{integer}+"."{integer}+
+octDigit=[0-7]
+octInt={sign}"0"{octDigit}+
+octReal={octInt}"."{octDigit}+
+oct={octInt}|{octReal}
 
 %%
-
-{iden}+	{System.out.println("Iden");}
+{oct}+ {System.out.println("octal");}
+{hex}+ {System.out.println("hexadecimal");}
+{dec}+ {System.out.println("decimal");}
