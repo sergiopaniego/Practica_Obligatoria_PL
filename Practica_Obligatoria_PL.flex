@@ -39,11 +39,14 @@ Hex={HexReal}|{HexInt}
 
 %%
 
+
 <YYINITIAL>"'"	{System.out.println("reconocido1");yybegin(CONSTLIT);}
 <CONSTLIT>"\'"	{System.out.println("reconocido3");yybegin(CONSTLIT2);}
 <CONSTLIT>"'"	{System.out.println("reconocido2");yybegin(YYINITIAL);}
 <CONSTLIT2>"\'"	{System.out.println("reconocido4");yybegin(CONSTLIT);}
 
+<YYINITIAL>"//".*[^.] {System.out.println("comentary");}//habria que meter \n
+<YYINITIAL>"/*"[^"*/"]*"*/" {System.out.println("comentary");}
 <YYINITIAL>{Identifier}	{System.out.println("<Iden>");}
 <YYINITIAL>{Octal}	{System.out.println("Octal");}
 <YYINITIAL>{Integer}	{System.out.println("Integer");}
