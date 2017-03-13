@@ -1,0 +1,31 @@
+# Created by https://www.gitignore.io/api/flex
+
+### Flex ###
+
+# Build and Release Folders
+bin/
+bin-debug/
+bin-release/
+.actionScriptProperties
+
+# only for a non-library project
+.flexProperties
+
+# only for library project
+.flexLibProperties
+
+
+# Other files and folders
+.settings/
+.project/
+
+.FlexUnitSettings
+.externalToolBuilders
+.model
+
+#Generated files
+PracticaObligatoria.class
+PracticaObligatoria.java
+PracticaObligatoria.java~
+
+# End of https://www.gitignore.io/api/flex
