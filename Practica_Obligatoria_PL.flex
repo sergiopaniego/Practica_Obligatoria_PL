@@ -35,11 +35,17 @@ HexDigit=[A-Fa-f0-9]
 HexInt="0x"{Sign}*{HexDigit}+
 HexReal={HexInt}"."{HexDigit}+
 Hex={HexReal}|{HexInt}
+%state CONSTLIT,CONSTLIT2
 
 %%
 
-{Identifier}	{System.out.println(<Iden>);}
-{Octal}	{System.out.println("Octal");}
-{Integer}	{System.out.println("Integer");}
-{Real}	{System.out.println("Real");}
-{Hex}+ {System.out.println("hexadecimal");}
+<YYINITIAL>"'"	{System.out.println("reconocido1");yybegin(CONSTLIT);}
+<CONSTLIT>"\'"	{System.out.println("reconocido3");yybegin(CONSTLIT2);}
+<CONSTLIT>"'"	{System.out.println("reconocido2");yybegin(YYINITIAL);}
+<CONSTLIT2>"\'"	{System.out.println("reconocido4");yybegin(CONSTLIT);}
+
+<YYINITIAL>{Identifier}	{System.out.println("<Iden>");}
+<YYINITIAL>{Octal}	{System.out.println("Octal");}
+<YYINITIAL>{Integer}	{System.out.println("Integer");}
+<YYINITIAL>{Real}	{System.out.println("Real");}
+<YYINITIAL>{Hex}+ {System.out.println("hexadecimal");}
