@@ -35,15 +35,16 @@ HexDigit=[A-Fa-f0-9]
 HexInt="0x"{Sign}*{HexDigit}+
 HexReal={HexInt}"."{HexDigit}+
 Hex={HexReal}|{HexInt}
+
 %state CONSTLIT,CONSTLIT2
 
 %%
 
 
 <YYINITIAL>"'"	{System.out.println("reconocido1");yybegin(CONSTLIT);}
-<CONSTLIT>"\'"	{System.out.println("reconocido3");yybegin(CONSTLIT2);}
+<CONSTLIT>"\\'"	{System.out.println("reconocido3");yybegin(CONSTLIT2);}
 <CONSTLIT>"'"	{System.out.println("reconocido2");yybegin(YYINITIAL);}
-<CONSTLIT2>"\'"	{System.out.println("reconocido4");yybegin(CONSTLIT);}
+<CONSTLIT2>"\\'"	{System.out.println("reconocido4");yybegin(CONSTLIT);}
 
 <YYINITIAL>"//".*[^.] {System.out.println("comentary");}//habria que meter \n
 <YYINITIAL>"/*"[^"*/"]*"*/" {System.out.println("comentary");}

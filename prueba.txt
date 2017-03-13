@@ -7,10 +7,10 @@ Reales:
 Base decimal: +123.456 , -0.69 , 45.0
 Base octal: 0+123.456 , 0-64.77 , 045.16, 00.35
 Base hexadecimal: 0x+123.0 , 0x-E.A6F9 , 0x0.FFFF
-'constante literal con \'contenido\' entrecomillado'
-'contenido'
 //comentario1
 /* asdfasdfa
 adfadfa
 dsafadf
 */
+'constante literal con \'contenido\' entrecomillado'
+'contenido'
