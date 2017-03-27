@@ -30,62 +30,62 @@ Real = {Sign}*{Number}+"."{Number}+
 OctalNumber = [0-7]
 OctalInteger = {OctalNumber}+
 OctalReal = {OctalNumber}+"."{OctalNumber}+
-Octal = "0"{Sign}*({OctalInteger}|{OctalReal})
 HexDigit = [A-Fa-f0-9]
 HexInt = "0x"{Sign}*{HexDigit}+
 HexReal = {HexInt}"."{HexDigit}+
-Hex = {HexReal}|{HexInt}
-Constint = {Integer} | "0"{Sign}*{OctalInteger} | "0x"{Sign}*{HexInt}
-Constfloat = {Real} | "0"{Sign}*{OctalReal} | "0x"{Sign}*{HexReal}
-Constlit= "'"(.|"\\'"|[^'])+"'"
-%state CONSTLIT,CONSTLIT2
+Constint = {HexInt} | "0"{Sign}*{OctalInteger} | {Integer}
+Constfloat = {HexReal} | "0"{Sign}*{OctalReal} | {Real}
+
+%state CONSTLIT,CONSTLIT2,ZERO,HEX
 
 %%
 
 
-<YYINITIAL>"'"	   {System.out.println("reconocido1");yybegin(CONSTLIT);}
-<CONSTLIT>"\\'"	   {System.out.println("reconocido3");yybegin(CONSTLIT2);}
-<CONSTLIT>"'"	     {System.out.println("reconocido2");yybegin(YYINITIAL);}
-<CONSTLIT2>"\\'"	 {System.out.println("reconocido4");yybegin(CONSTLIT);}
-
-"//".*[^.] {System.out.println("<Commen,"+yytext()+">");}
-"/*"[^"*/"]*"*/" {System.out.println("<Commen,"+yytext()+">");}
-{Identifier}	{System.out.println("<Iden,"+yytext()+">");}
-{Constint}	{System.out.println("<Constint,"+yytext()+">");}
-{Constfloat}	{System.out.println("<Constfloat,"+yytext()+">");}
+<YYINITIAL>"'"	   {System.out.print("<Constlit,"+yytext());yybegin(CONSTLIT);}
+<CONSTLIT>"\\'"	   {System.out.print(yytext());yybegin(CONSTLIT2);}
+<CONSTLIT>"'"	     {System.out.println(yytext()+">");yybegin(YYINITIAL);}
+<CONSTLIT2>"\\'"	 {System.out.print(yytext());yybegin(CONSTLIT);}
 
 
-"(" {System.out.println("<LeftParenthesis,"+yytext()+">");}
-")" {System.out.println("<RightParenthesis,"+yytext()+">");}
-"{" {System.out.println("<LeftBracket,"+yytext()+">");}
-"}" {System.out.println("<RightBracket,"+yytext()+">");}
-"," {System.out.println("<Comma,"+yytext()+">");}
-"void" {System.out.println("<Void,"+yytext()+">");}
-"int" {System.out.println("<Int,"+yytext()+">");}
-"float" {System.out.println("<Float,"+yytext()+">");}
-"+" {System.out.println("<AdditionSign,"+yytext()+">");}
-"-" {System.out.println("<SubstractionSign,"+yytext()+">");}
-"*" {System.out.println("<MultiplicationSign,"+yytext()+">");}
-"/" {System.out.println("<Slash,"+yytext()+">");}
-"%" {System.out.println("<Percent,"+yytext()+">");}
-"if" {System.out.println("<If,"+yytext()+">");}
-"then" {System.out.println("<Then,"+yytext()+">");}
-"else" {System.out.println("<Else,"+yytext()+">");}
-"for" {System.out.println("<For,"+yytext()+">");}
-"=" {System.out.println("<Equal,"+yytext()+">");}
-"while" {System.out.println("<While,"+yytext()+">");}
-"do" {System.out.println("<Do,"+yytext()+">");}
-"until" {System.out.println("<Until,"+yytext()+">");}
-"==" {System.out.println("<DoubleEqual,"+yytext()+">");}
-"<" {System.out.println("<LessThan,"+yytext()+">");}
-">" {System.out.println("<MoreThan,"+yytext()+">");}
-">=" {System.out.println("<LessThanEqualTo,"+yytext()+">");}
-"<=" {System.out.println("<MoreThanEqualTo,"+yytext()+">");}
-"or" {System.out.println("<Or,"+yytext()+">");}
-"and" {System.out.println("<And,"+yytext()+">");}
-"not" {System.out.println("<Not,"+yytext()+">");}
-"struct" {System.out.println("<Struct,"+yytext()+">");}
-"." {System.out.println("<Dot,"+yytext()+">");}
-";" {System.out.println("<Semicolon,"+yytext()+">");}
-"[" {System.out.println("<LeftSquareBracket,"+yytext()+">");}
-"]" {System.out.println("<RightSquareBracket,"+yytext()+">");}
+<YYINITIAL>"//".* {System.out.println("<Commen,"+yytext()+">");}
+<YYINITIAL>"/*"[^"*/"]*"*/" {System.out.println("<Commen,"+yytext()+">");}
+
+<YYINITIAL>{Constint}	{System.out.println("<Constint,"+yytext()+">");}
+<YYINITIAL>{Constfloat}	{System.out.println("<Constfloat,"+yytext()+">");}
+
+<YYINITIAL>"(" {System.out.println("<LeftParenthesis,"+yytext()+">");}
+<YYINITIAL>")" {System.out.println("<RightParenthesis,"+yytext()+">");}
+<YYINITIAL>"{" {System.out.println("<LeftBracket,"+yytext()+">");}
+<YYINITIAL>"}" {System.out.println("<RightBracket,"+yytext()+">");}
+<YYINITIAL>"," {System.out.println("<Comma,"+yytext()+">");}
+<YYINITIAL>"void" {System.out.println("<Void,"+yytext()+">");}
+<YYINITIAL>"int" {System.out.println("<Int,"+yytext()+">");}
+<YYINITIAL>"float" {System.out.println("<Float,"+yytext()+">");}
+<YYINITIAL>"+" {System.out.println("<AdditionSign,"+yytext()+">");}
+<YYINITIAL>"-" {System.out.println("<SubstractionSign,"+yytext()+">");}
+<YYINITIAL>"*" {System.out.println("<MultiplicationSign,"+yytext()+">");}
+<YYINITIAL>"/" {System.out.println("<Slash,"+yytext()+">");}
+<YYINITIAL>"%" {System.out.println("<Percent,"+yytext()+">");}
+<YYINITIAL>"if" {System.out.println("<If,"+yytext()+">");}
+<YYINITIAL>"then" {System.out.println("<Then,"+yytext()+">");}
+<YYINITIAL>"else" {System.out.println("<Else,"+yytext()+">");}
+<YYINITIAL>"for" {System.out.println("<For,"+yytext()+">");}
+<YYINITIAL>"=" {System.out.println("<Equal,"+yytext()+">");}
+<YYINITIAL>"while" {System.out.println("<While,"+yytext()+">");}
+<YYINITIAL>"do" {System.out.println("<Do,"+yytext()+">");}
+<YYINITIAL>"until" {System.out.println("<Until,"+yytext()+">");}
+<YYINITIAL>"==" {System.out.println("<DoubleEqual,"+yytext()+">");}
+<YYINITIAL>"<" {System.out.println("<LessThan,"+yytext()+">");}
+<YYINITIAL>">" {System.out.println("<MoreThan,"+yytext()+">");}
+<YYINITIAL>">=" {System.out.println("<LessThanEqualTo,"+yytext()+">");}
+<YYINITIAL>"<=" {System.out.println("<MoreThanEqualTo,"+yytext()+">");}
+<YYINITIAL>"or" {System.out.println("<Or,"+yytext()+">");}
+<YYINITIAL>"and" {System.out.println("<And,"+yytext()+">");}
+<YYINITIAL>"not" {System.out.println("<Not,"+yytext()+">");}
+<YYINITIAL>"struct" {System.out.println("<Struct,"+yytext()+">");}
+<YYINITIAL>"." {System.out.println("<Dot,"+yytext()+">");}
+<YYINITIAL>";" {System.out.println("<Semicolon,"+yytext()+">");}
+<YYINITIAL>"[" {System.out.println("<LeftSquareBracket,"+yytext()+">");}
+<YYINITIAL>"]" {System.out.println("<RightSquareBracket,"+yytext()+">");}
+<YYINITIAL>":" {System.out.println("<Colon,"+yytext()+">");}
+<YYINITIAL>{Identifier}	{System.out.println("<Iden,"+yytext()+">");}
