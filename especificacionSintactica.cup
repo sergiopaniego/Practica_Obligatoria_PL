@@ -1,0 +1,21 @@
+import java_cup.runtime.*;
+
+terminal ident, left_parenthesis, right_parenthesis, left_bracket, right_bracket, comma, void, int, float, equal, semicolon, colon, return,
+  addition_sign, substraction_sign, multiplication_sign, slash, percent, constint, constfloat, constlit;
+non terminal   PROGRAM, PART, TYPE, RESTPART, LISTPARAM, BLQ, SENTLIST, SENT, LID, EXP, OP, FACTOR, LEXP;
+
+PROGRAM ::= PART PROGRAM | PART
+PART ::= TYPE RESTPART
+RESTPART ::= ident "(" LISTPARAM ")" BLQ
+BLQ ::= "{" SENTLIST "}"
+LISTPARAM ::= LISTPARAM "," TYPE ident | TYPE ident
+TYPE ::= "void" | "int" | "float"
+
+SENTLIST ::= SENTLIST SENT | SENT
+SENT ::= TYPE LID ";" | ident "=" EXP ";" | ident "(" LEXP ")" ";" | "return" EXP ";"
+LID ::= ident | LID "," ident
+LEXP ::= EXP | LEXP "," EXP
+EXP ::= EXP OP EXP | FACTOR
+OP ::= "+" | "-" | "*" | "/" | "%"
+FACTOR ::= ident "(" LEXP ")" | "(" EXP ")" | ident | constint | constfloat
+ | constlit
