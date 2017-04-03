@@ -1,21 +1,19 @@
 import java_cup.runtime.*;
 
-terminal ident, left_parenthesis, right_parenthesis, left_bracket, right_bracket, comma, void, int, float, equal, semicolon, colon, return,
-  addition_sign, substraction_sign, multiplication_sign, slash, percent, constint, constfloat, constlit;
+terminal ident, left_parenthesis, right_parenthesis, left_bracket, right_bracket, comma, void_token, int_token, float_token, equal, semicolon, addition_sign, substraction_sign, multiplication_sign, slash, percent, constint, constfloat, constlit, return_token;
 non terminal   PROGRAM, PART, TYPE, RESTPART, LISTPARAM, BLQ, SENTLIST, SENT, LID, EXP, OP, FACTOR, LEXP;
 
-PROGRAM ::= PART PROGRAM | PART
-PART ::= TYPE RESTPART
-RESTPART ::= ident "(" LISTPARAM ")" BLQ
-BLQ ::= "{" SENTLIST "}"
-LISTPARAM ::= LISTPARAM "," TYPE ident | TYPE ident
-TYPE ::= "void" | "int" | "float"
+PROGRAM::= PART PROGRAM | PART;
+PART::= TYPE RESTPART;
+RESTPART::= ident left_parenthesis LISTPARAM right_parenthesis BLQ;
+BLQ::= left_bracket SENTLIST right_bracket;
+LISTPARAM::= LISTPARAM comma TYPE ident | TYPE ident;
+TYPE::= void_token | int_token | float_token;
 
-SENTLIST ::= SENTLIST SENT | SENT
-SENT ::= TYPE LID ";" | ident "=" EXP ";" | ident "(" LEXP ")" ";" | "return" EXP ";"
-LID ::= ident | LID "," ident
-LEXP ::= EXP | LEXP "," EXP
-EXP ::= EXP OP EXP | FACTOR
-OP ::= "+" | "-" | "*" | "/" | "%"
-FACTOR ::= ident "(" LEXP ")" | "(" EXP ")" | ident | constint | constfloat
- | constlit
+SENTLIST::= SENTLIST SENT | SENT;
+SENT::= TYPE LID semicolon | ident equal EXP semicolon | ident left_parenthesis LEXP right_parenthesis semicolon | return_token EXP semicolon;
+LID::= ident | LID comma ident;
+LEXP::= EXP | LEXP comma EXP;
+EXP::= EXP OP EXP | FACTOR;
+OP::= addition_sign | substraction_sign | multiplication_sign | slash | percent;
+FACTOR::= ident left_parenthesis LEXP right_parenthesis | left_parenthesis EXP right_parenthesis | ident | constint | constfloat | constlit;
