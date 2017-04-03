@@ -832,7 +832,7 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
             }
           case 74: break;
           case 24: 
-            { return new java_cup.runtime.Symbol(sym.constlit , yytext());yybegin(YYINITIAL);
+            { return new java_cup.runtime.Symbol(sym.constlit , yytext());
             }
           case 75: break;
           case 25: 
@@ -904,7 +904,7 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
             }
           case 92: break;
           case 42: 
-            { return new java_cup.runtime.Symbol(sym.void_token , yytext());;
+            { return new java_cup.runtime.Symbol(sym.void_token , yytext());
             }
           case 93: break;
           case 43: 
