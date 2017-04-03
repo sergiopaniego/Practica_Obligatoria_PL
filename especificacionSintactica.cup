@@ -3,6 +3,12 @@ import java_cup.runtime.*;
 terminal ident, left_parenthesis, right_parenthesis, left_bracket, right_bracket, comma, void_token, int_token, float_token, equal, semicolon, addition_sign, substraction_sign, multiplication_sign, slash, percent, constint, constfloat, constlit, return_token;
 non terminal   PROGRAM, PART, TYPE, RESTPART, LISTPARAM, BLQ, SENTLIST, SENT, LID, EXP, OP, FACTOR, LEXP;
 
+precedence left addition_sign;
+precedence left substraction_sign;
+precedence left multiplication_sign;
+precedence left slash;
+precedence left percent;
+
 PROGRAM::= PART PROGRAM | PART;
 PART::= TYPE RESTPART;
 RESTPART::= ident left_parenthesis LISTPARAM right_parenthesis BLQ;
