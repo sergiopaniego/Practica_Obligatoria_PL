@@ -90,3 +90,5 @@ Constfloat = {HexReal} | "0"{Sign}*{OctalReal} | {Real}
 <YYINITIAL>{HexRealError} {System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" More than one dot added.\\");}
 <YYINITIAL>"\\" {System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" Starting of comment symbol not matching.\\");}
 <YYINITIAL>"*\\" {System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" Incorrect finish comment sign.\\");}
+/*errorfallback*/
+[^] | \n {;}
