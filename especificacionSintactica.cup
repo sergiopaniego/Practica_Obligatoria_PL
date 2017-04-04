@@ -2,9 +2,9 @@ import java_cup.runtime.*;
 
 terminal ident, left_parenthesis, right_parenthesis, left_bracket, right_bracket, comma, void_token, int_token,
  float_token, equal, semicolon, struct, until, while_token, else_token, then_token, comment, and, for_token, not,
-less_than_equal_to, more_than_equa_lto, double_equal, do_token, if_token, or, colon, right_squarebracket,
+less_than_equal_to, more_than_equal_to, double_equal, do_token, if_token, or, colon, right_squarebracket,
 left_squarebracket, more_than, less_than, dot, iden, 
- addition_sign, substraction_sign, multiplication_sign, slash, percent, constint, constfloat, constlit, return_token;
+addition_sign, substraction_sign, multiplication_sign, slash, percent, constint, constfloat, constlit, return_token, space, no_space;
 non terminal   PROGRAM, PART, TYPE, RESTPART, LISTPARAM, BLQ, SENTLIST, SENT, LID, EXP, OP, FACTOR, LEXP;
 
 precedence left addition_sign;
