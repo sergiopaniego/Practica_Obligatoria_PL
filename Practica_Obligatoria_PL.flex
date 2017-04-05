@@ -33,8 +33,8 @@ Constlit = "'"([^\n]|"\\'"|[^'])+"'"
 
 
 
-"//".* {System.out.println("comment");}
-"/*"[^"*/"]*"*/" {System.out.println("comment");}
+"//".* {System.out.println("comment");return new java_cup.runtime.Symbol(sym.comment, yytext());}
+"/*"[^"*/"]*"*/" {System.out.println("comment");return new java_cup.runtime.Symbol(sym.comment , yytext());}
 
 {Constint}	{System.out.println("constint");return new java_cup.runtime.Symbol(sym.constint , yytext());}
 {Constfloat}	{System.out.println("constfloat");return new java_cup.runtime.Symbol(sym.constfloat , yytext());}
@@ -44,8 +44,6 @@ Constlit = "'"([^\n]|"\\'"|[^'])+"'"
 ")" {System.out.println("right_par");return new java_cup.runtime.Symbol(sym.right_parenthesis , yytext());}
 "{" {System.out.println("left_bracket");return new java_cup.runtime.Symbol(sym.left_bracket , yytext());}
 "}" {System.out.println("right_bracket");return new java_cup.runtime.Symbol(sym.right_bracket , yytext());}
-";" {System.out.println("semicolon");return new java_cup.runtime.Symbol(sym.semicolon , yytext());}
-"=" {System.out.println("equal");return new java_cup.runtime.Symbol(sym.equal , yytext());}
 "," {System.out.println("comma");return new java_cup.runtime.Symbol(sym.comma , yytext());}
 "void" {System.out.println("void");return new java_cup.runtime.Symbol(sym.void_token , yytext());}
 "int" {System.out.println("int");return new java_cup.runtime.Symbol(sym.int_token , yytext());}
@@ -55,8 +53,31 @@ Constlit = "'"([^\n]|"\\'"|[^'])+"'"
 "*" {System.out.println("multiplication_sign");return new java_cup.runtime.Symbol(sym.multiplication_sign , yytext());}
 "/" {System.out.println("slash");return new java_cup.runtime.Symbol(sym.slash , yytext());}
 "%" {System.out.println("percent");return new java_cup.runtime.Symbol(sym.percent , yytext());}
+"if"	{System.out.println("if");return new java_cup.runtime.Symbol(sym.if_token , yytext());}
+"then" {System.out.println("then");return new java_cup.runtime.Symbol(sym.then_token , yytext());}
+"else" {System.out.println("else");return new java_cup.runtime.Symbol(sym.else_token , yytext());}
+"for" {System.out.println("for");return new java_cup.runtime.Symbol(sym.for_token , yytext());}
+"=" {System.out.println("equal");return new java_cup.runtime.Symbol(sym.equal , yytext());}
+"while" {System.out.println("while");return new java_cup.runtime.Symbol(sym.while_token , yytext());}
+"do" {System.out.println("do");return new java_cup.runtime.Symbol(sym.do_token , yytext());}
+"until" {System.out.println("until");return new java_cup.runtime.Symbol(sym.until , yytext());}
+"==" {System.out.println("double_equal");return new java_cup.runtime.Symbol(sym.double_equal , yytext());}
+"<" {System.out.println("less_than");return new java_cup.runtime.Symbol(sym.less_than , yytext());}
+">" {System.out.println("more_than");return new java_cup.runtime.Symbol(sym.more_than , yytext());}
+">=" {System.out.println("less_than_equal_to");return new java_cup.runtime.Symbol(sym.less_than_equal_to , yytext());}
+"<=" {System.out.println("more_than_equal_to");return new java_cup.runtime.Symbol(sym.more_than_equal_to , yytext());}
+"or" {System.out.println("or");return new java_cup.runtime.Symbol(sym.or , yytext());}
+"and" {System.out.println("anda");return new java_cup.runtime.Symbol(sym.and , yytext());}
+"not" {System.out.println("not");return new java_cup.runtime.Symbol(sym.not , yytext());}
+"struct" {System.out.println("struct");return new java_cup.runtime.Symbol(sym.struct , yytext());}
+"." {System.out.println("dot");return new java_cup.runtime.Symbol(sym.dot , yytext());}
+";" {System.out.println("semicolon");return new java_cup.runtime.Symbol(sym.semicolon , yytext());}
+"[" {System.out.println("left_squarebracket");return new java_cup.runtime.Symbol(sym.left_squarebracket , yytext());}
+"]" {System.out.println("right_squarebracket");return new java_cup.runtime.Symbol(sym.right_squarebracket , yytext());}
+":" {System.out.println("colon");return new java_cup.runtime.Symbol(sym.colon , yytext());}
 "return" {System.out.println("return");return new java_cup.runtime.Symbol(sym.return_token , yytext());}
-{Identifier}	{System.out.println("ident");return new java_cup.runtime.Symbol(sym.ident , yytext());}
+{Identifier}	{System.out.println("ident");return new java_cup.runtime.Symbol(sym.iden , yytext());}
+" " {System.out.println("space");return new java_cup.runtime.Symbol(sym.space);}
 
 
 //Error detection
@@ -68,4 +89,4 @@ Constlit = "'"([^\n]|"\\'"|[^'])+"'"
 "*\\" {System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" Incorrect finish comment sign.\\");}
 
 /*errorfallback*/
-[^] | \n {;}
+[^] | \n {System.out.println("no_space");return new java_cup.runtime.Symbol(sym.no_space , yytext());}

@@ -32,13 +32,13 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\12\0\1\14\1\14\1\14\1\14\26\0\1\1\1\40\1\0\1\13"+
-    "\1\20\1\21\1\17\1\4\1\26\1\5\1\6\1\16\1\11\7\7"+
-    "\2\2\1\0\1\24\1\0\1\25\3\0\6\10\24\1\1\0\1\15"+
-    "\2\0\1\3\1\0\1\37\2\10\1\32\1\42\1\35\2\1\1\31"+
-    "\2\1\1\36\1\1\1\33\1\30\2\1\1\41\1\1\1\34\1\43"+
-    "\1\27\1\1\1\12\2\1\1\22\1\0\1\23\7\0\1\14\u1fa2\0"+
-    "\1\14\1\14\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
+    "\12\0\1\14\1\14\1\14\1\14\22\0\1\55\3\0\1\1\1\36"+
+    "\1\0\1\13\1\20\1\21\1\17\1\4\1\24\1\5\1\6\1\16"+
+    "\1\11\7\7\2\2\1\54\1\51\1\46\1\43\1\47\2\0\6\10"+
+    "\24\1\1\52\1\15\1\53\1\0\1\3\1\0\1\35\1\10\1\50"+
+    "\1\30\1\40\1\33\1\1\1\37\1\27\2\1\1\34\1\1\1\31"+
+    "\1\26\2\1\1\42\1\41\1\32\1\45\1\25\1\44\1\12\2\1"+
+    "\1\22\1\0\1\23\7\0\1\14\u1fa2\0\1\14\1\14\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
 
   /** 
    * Translates characters to character classes
@@ -51,15 +51,19 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\3\1\4\1\5\1\3\1\1"+
-    "\1\6\1\7\1\10\1\11\1\12\1\13\1\14\1\15"+
-    "\1\16\1\17\3\2\1\20\1\2\3\0\1\21\1\0"+
-    "\1\22\1\0\1\23\1\24\4\2\1\25\2\3\1\0"+
-    "\1\26\1\0\1\2\1\27\2\2\3\0\1\22\1\30"+
-    "\2\2\2\25\1\0\1\31\1\32\1\2\1\33\1\34";
+    "\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\3"+
+    "\1\1\1\7\1\10\1\11\1\12\1\13\1\14\1\15"+
+    "\1\16\10\2\1\17\3\2\1\20\2\2\1\21\1\22"+
+    "\1\23\1\24\1\25\1\26\1\27\3\0\1\30\1\0"+
+    "\1\31\1\0\1\32\1\33\1\2\1\34\1\2\1\35"+
+    "\1\36\10\2\1\37\2\2\1\40\1\41\1\42\2\3"+
+    "\1\0\1\43\1\0\1\2\1\44\1\45\1\2\1\46"+
+    "\1\2\1\47\5\2\3\0\1\50\1\51\1\52\1\2"+
+    "\1\53\4\2\2\42\1\0\1\54\1\55\2\2\1\56"+
+    "\1\57\1\60\1\61\1\62";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[61];
+    int [] result = new int[108];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -84,17 +88,23 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\44\0\110\0\154\0\220\0\220\0\264\0\330"+
-    "\0\44\0\374\0\u0120\0\44\0\44\0\44\0\44\0\44"+
-    "\0\44\0\44\0\u0144\0\u0168\0\u018c\0\44\0\u01b0\0\u01d4"+
-    "\0\220\0\u01f8\0\u021c\0\u0240\0\u0264\0\u0288\0\44\0\44"+
-    "\0\u02ac\0\u02d0\0\u02f4\0\u0318\0\u01d4\0\u033c\0\u0360\0\u0384"+
-    "\0\u0240\0\u03a8\0\u03cc\0\110\0\u03f0\0\u0414\0\u0438\0\u045c"+
-    "\0\u0480\0\44\0\110\0\u04a4\0\u04c8\0\u0438\0\u04ec\0\u0510"+
-    "\0\u0534\0\110\0\u0558\0\u057c\0\110";
+    "\0\0\0\56\0\134\0\212\0\270\0\270\0\56\0\346"+
+    "\0\u0114\0\56\0\u0142\0\u0170\0\56\0\56\0\56\0\56"+
+    "\0\56\0\u019e\0\u01cc\0\u01fa\0\u0228\0\u0256\0\u0284\0\u02b2"+
+    "\0\u02e0\0\56\0\u030e\0\u033c\0\u036a\0\u0398\0\u03c6\0\u03f4"+
+    "\0\u0422\0\u0450\0\56\0\56\0\56\0\56\0\56\0\u047e"+
+    "\0\270\0\u04ac\0\u04da\0\u0508\0\u0536\0\u0564\0\56\0\56"+
+    "\0\u0592\0\134\0\u05c0\0\134\0\134\0\u05ee\0\u061c\0\u064a"+
+    "\0\u0678\0\u06a6\0\u06d4\0\u0702\0\u0730\0\56\0\u075e\0\u078c"+
+    "\0\56\0\56\0\u047e\0\u07ba\0\u07e8\0\u0816\0\u0508\0\u0844"+
+    "\0\u0872\0\134\0\134\0\u08a0\0\134\0\u08ce\0\134\0\u08fc"+
+    "\0\u092a\0\u0958\0\u0986\0\u09b4\0\u09e2\0\u0a10\0\u0a3e\0\56"+
+    "\0\134\0\134\0\u0a6c\0\134\0\u0a9a\0\u0ac8\0\u0af6\0\u0b24"+
+    "\0\u09e2\0\u0b52\0\u0b80\0\u0bae\0\134\0\u0bdc\0\u0c0a\0\134"+
+    "\0\134\0\u0c38\0\134\0\134";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[61];
+    int [] result = new int[108];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -117,55 +127,112 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\1\3\1\4\1\2\1\5\1\6\1\2\1\4"+
-    "\1\3\1\7\1\3\1\10\1\2\1\11\1\12\1\13"+
-    "\1\14\1\15\1\16\1\17\1\20\1\21\1\22\1\23"+
-    "\1\3\1\24\3\3\1\25\2\3\1\26\1\27\2\3"+
-    "\45\0\3\3\3\0\4\3\14\0\11\3\1\0\3\3"+
-    "\2\0\1\4\3\0\1\30\1\4\1\0\1\4\34\0"+
-    "\1\4\1\0\2\31\1\0\1\4\1\0\1\4\34\0"+
-    "\1\4\1\0\2\32\1\30\1\4\1\0\1\4\1\33"+
-    "\31\0\44\34\16\0\1\35\1\36\41\0\1\37\1\40"+
-    "\26\0\3\3\3\0\4\3\14\0\1\3\1\41\7\3"+
-    "\1\0\3\3\1\0\3\3\3\0\4\3\14\0\4\3"+
-    "\1\42\4\3\1\0\3\3\1\0\3\3\3\0\4\3"+
-    "\14\0\7\3\1\43\1\3\1\0\3\3\1\0\3\3"+
-    "\3\0\4\3\14\0\11\3\1\0\1\3\1\44\1\3"+
-    "\2\0\1\45\4\0\1\45\1\0\1\45\36\0\2\32"+
-    "\1\0\1\46\1\0\1\46\34\0\1\47\1\0\2\50"+
-    "\1\0\3\47\20\0\1\47\2\0\1\47\1\0\1\47"+
-    "\2\0\1\47\1\0\13\34\1\51\30\34\14\35\1\0"+
-    "\27\35\16\36\1\0\1\52\24\36\1\0\3\3\3\0"+
-    "\4\3\14\0\2\3\1\53\6\3\1\0\3\3\1\0"+
-    "\3\3\3\0\4\3\14\0\5\3\1\54\3\3\1\0"+
-    "\3\3\1\0\3\3\3\0\4\3\14\0\1\3\1\55"+
-    "\7\3\1\0\3\3\1\0\3\3\3\0\4\3\14\0"+
-    "\5\3\1\56\3\3\1\0\3\3\6\0\1\57\1\46"+
-    "\1\0\1\46\34\0\1\47\3\0\1\60\3\47\20\0"+
-    "\1\47\2\0\1\47\1\0\1\47\2\0\1\47\3\0"+
-    "\1\47\1\0\2\61\1\0\3\47\20\0\1\47\2\0"+
-    "\1\47\1\0\1\47\2\0\1\47\17\0\1\62\26\0"+
-    "\3\3\3\0\4\3\14\0\3\3\1\63\5\3\1\0"+
-    "\3\3\1\0\3\3\3\0\4\3\14\0\10\3\1\64"+
-    "\1\0\3\3\1\0\3\3\3\0\4\3\14\0\11\3"+
-    "\1\0\2\3\1\65\7\0\1\66\1\0\1\66\34\0"+
-    "\1\67\3\0\1\70\3\67\20\0\1\67\2\0\1\67"+
-    "\1\0\1\67\2\0\1\67\3\0\1\71\1\0\2\61"+
-    "\1\0\3\71\20\0\1\71\2\0\1\71\1\0\1\71"+
-    "\2\0\1\71\2\0\3\3\3\0\4\3\14\0\5\3"+
-    "\1\72\3\3\1\0\3\3\1\0\3\3\3\0\4\3"+
-    "\14\0\11\3\1\0\1\73\2\3\2\0\1\67\4\0"+
-    "\3\67\20\0\1\67\2\0\1\67\1\0\1\67\2\0"+
-    "\1\67\3\0\1\74\3\0\1\70\3\74\20\0\1\74"+
-    "\2\0\1\74\1\0\1\74\2\0\1\74\3\0\1\71"+
-    "\4\0\3\71\20\0\1\71\2\0\1\71\1\0\1\71"+
-    "\2\0\1\71\2\0\3\3\3\0\4\3\14\0\4\3"+
-    "\1\75\4\3\1\0\3\3\2\0\1\74\4\0\3\74"+
-    "\20\0\1\74\2\0\1\74\1\0\1\74\2\0\1\74"+
-    "\1\0";
+    "\1\2\1\3\1\4\1\2\1\5\1\6\1\7\1\4"+
+    "\1\3\1\10\1\3\1\11\1\2\1\12\1\13\1\14"+
+    "\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24"+
+    "\1\25\1\26\1\27\1\30\1\3\1\31\1\32\1\3"+
+    "\1\33\1\34\1\35\1\36\1\37\1\40\1\41\1\42"+
+    "\1\3\1\43\1\44\1\45\1\46\1\47\57\0\3\3"+
+    "\3\0\4\3\12\0\11\3\1\0\4\3\1\0\2\3"+
+    "\2\0\1\3\7\0\1\4\3\0\1\50\1\4\1\0"+
+    "\1\4\46\0\1\4\1\0\2\51\1\0\1\4\1\0"+
+    "\1\4\46\0\1\4\1\0\2\52\1\50\1\4\1\0"+
+    "\1\4\1\53\43\0\56\54\16\0\1\55\1\56\53\0"+
+    "\1\57\1\60\40\0\3\3\3\0\4\3\12\0\1\3"+
+    "\1\61\7\3\1\0\4\3\1\0\2\3\2\0\1\3"+
+    "\6\0\3\3\3\0\4\3\12\0\11\3\1\0\3\3"+
+    "\1\62\1\0\2\3\2\0\1\3\6\0\3\3\3\0"+
+    "\4\3\12\0\4\3\1\63\1\3\1\64\2\3\1\0"+
+    "\4\3\1\0\2\3\2\0\1\3\6\0\3\3\3\0"+
+    "\4\3\12\0\1\3\1\65\7\3\1\0\4\3\1\0"+
+    "\2\3\2\0\1\3\6\0\3\3\3\0\4\3\12\0"+
+    "\1\3\1\66\7\3\1\0\4\3\1\0\2\3\2\0"+
+    "\1\3\6\0\3\3\3\0\4\3\12\0\11\3\1\0"+
+    "\1\67\3\3\1\0\2\3\2\0\1\3\6\0\3\3"+
+    "\3\0\4\3\12\0\1\3\1\70\5\3\1\71\1\3"+
+    "\1\0\4\3\1\0\2\3\2\0\1\3\6\0\3\3"+
+    "\3\0\4\3\12\0\4\3\1\72\4\3\1\0\4\3"+
+    "\1\0\2\3\2\0\1\3\6\0\3\3\3\0\4\3"+
+    "\12\0\7\3\1\73\1\3\1\0\4\3\1\0\2\3"+
+    "\2\0\1\3\6\0\3\3\3\0\4\3\12\0\5\3"+
+    "\1\74\3\3\1\0\4\3\1\0\2\3\2\0\1\3"+
+    "\6\0\3\3\3\0\4\3\12\0\11\3\1\0\1\3"+
+    "\1\75\2\3\1\0\2\3\2\0\1\3\50\0\1\76"+
+    "\13\0\3\3\3\0\4\3\12\0\11\3\1\0\1\77"+
+    "\3\3\1\0\2\3\2\0\1\3\6\0\3\3\3\0"+
+    "\4\3\12\0\4\3\1\100\4\3\1\0\4\3\1\0"+
+    "\2\3\2\0\1\3\50\0\1\101\55\0\1\102\14\0"+
+    "\1\103\4\0\1\103\1\0\1\103\50\0\2\52\1\0"+
+    "\1\104\1\0\1\104\46\0\1\105\1\0\2\106\1\0"+
+    "\3\105\16\0\1\105\2\0\1\105\1\0\1\105\2\0"+
+    "\1\105\7\0\1\105\5\0\13\54\1\107\42\54\14\55"+
+    "\1\0\41\55\16\56\1\0\1\110\36\56\1\0\3\3"+
+    "\3\0\4\3\12\0\2\3\1\111\6\3\1\0\4\3"+
+    "\1\0\2\3\2\0\1\3\6\0\3\3\3\0\4\3"+
+    "\12\0\5\3\1\112\3\3\1\0\4\3\1\0\2\3"+
+    "\2\0\1\3\6\0\3\3\3\0\4\3\12\0\5\3"+
+    "\1\113\3\3\1\0\4\3\1\0\2\3\2\0\1\3"+
+    "\6\0\3\3\3\0\4\3\12\0\11\3\1\0\1\3"+
+    "\1\114\2\3\1\0\2\3\2\0\1\3\6\0\3\3"+
+    "\3\0\4\3\12\0\11\3\1\0\3\3\1\115\1\0"+
+    "\2\3\2\0\1\3\6\0\3\3\3\0\4\3\12\0"+
+    "\1\3\1\116\7\3\1\0\4\3\1\0\2\3\2\0"+
+    "\1\3\6\0\3\3\3\0\4\3\12\0\3\3\1\117"+
+    "\5\3\1\0\4\3\1\0\2\3\2\0\1\3\6\0"+
+    "\3\3\3\0\4\3\12\0\11\3\1\0\2\3\1\120"+
+    "\1\3\1\0\2\3\2\0\1\3\6\0\3\3\3\0"+
+    "\4\3\12\0\11\3\1\0\3\3\1\121\1\0\2\3"+
+    "\2\0\1\3\6\0\3\3\3\0\4\3\12\0\5\3"+
+    "\1\122\3\3\1\0\4\3\1\0\2\3\2\0\1\3"+
+    "\6\0\3\3\3\0\4\3\12\0\2\3\1\123\6\3"+
+    "\1\0\4\3\1\0\2\3\2\0\1\3\6\0\3\3"+
+    "\3\0\4\3\12\0\5\3\1\124\3\3\1\0\4\3"+
+    "\1\0\2\3\2\0\1\3\13\0\1\125\1\104\1\0"+
+    "\1\104\46\0\1\105\3\0\1\126\3\105\16\0\1\105"+
+    "\2\0\1\105\1\0\1\105\2\0\1\105\7\0\1\105"+
+    "\7\0\1\105\1\0\2\127\1\0\3\105\16\0\1\105"+
+    "\2\0\1\105\1\0\1\105\2\0\1\105\7\0\1\105"+
+    "\23\0\1\130\40\0\3\3\3\0\4\3\12\0\3\3"+
+    "\1\131\5\3\1\0\4\3\1\0\2\3\2\0\1\3"+
+    "\6\0\3\3\3\0\4\3\12\0\4\3\1\132\4\3"+
+    "\1\0\4\3\1\0\2\3\2\0\1\3\6\0\3\3"+
+    "\3\0\4\3\12\0\10\3\1\133\1\0\4\3\1\0"+
+    "\2\3\2\0\1\3\6\0\3\3\3\0\4\3\12\0"+
+    "\11\3\1\0\1\3\1\134\2\3\1\0\2\3\2\0"+
+    "\1\3\6\0\3\3\3\0\4\3\12\0\11\3\1\0"+
+    "\4\3\1\0\1\3\1\135\2\0\1\3\6\0\3\3"+
+    "\3\0\4\3\12\0\11\3\1\0\4\3\1\0\1\3"+
+    "\1\136\2\0\1\3\6\0\3\3\3\0\4\3\12\0"+
+    "\7\3\1\137\1\3\1\0\4\3\1\0\2\3\2\0"+
+    "\1\3\6\0\3\3\3\0\4\3\12\0\2\3\1\140"+
+    "\6\3\1\0\4\3\1\0\2\3\2\0\1\3\14\0"+
+    "\1\141\1\0\1\141\46\0\1\142\3\0\1\143\3\142"+
+    "\16\0\1\142\2\0\1\142\1\0\1\142\2\0\1\142"+
+    "\7\0\1\142\7\0\1\144\1\0\2\127\1\0\3\144"+
+    "\16\0\1\144\2\0\1\144\1\0\1\144\2\0\1\144"+
+    "\7\0\1\144\6\0\3\3\3\0\4\3\12\0\5\3"+
+    "\1\145\3\3\1\0\4\3\1\0\2\3\2\0\1\3"+
+    "\6\0\3\3\3\0\4\3\12\0\11\3\1\0\4\3"+
+    "\1\0\2\3\2\0\1\146\6\0\3\3\3\0\4\3"+
+    "\12\0\11\3\1\0\3\3\1\147\1\0\2\3\2\0"+
+    "\1\3\6\0\3\3\3\0\4\3\12\0\11\3\1\0"+
+    "\1\3\1\150\2\3\1\0\2\3\2\0\1\3\6\0"+
+    "\3\3\3\0\4\3\12\0\7\3\1\151\1\3\1\0"+
+    "\4\3\1\0\2\3\2\0\1\3\7\0\1\142\4\0"+
+    "\3\142\16\0\1\142\2\0\1\142\1\0\1\142\2\0"+
+    "\1\142\7\0\1\142\7\0\1\152\3\0\1\143\3\152"+
+    "\16\0\1\152\2\0\1\152\1\0\1\152\2\0\1\152"+
+    "\7\0\1\152\7\0\1\144\4\0\3\144\16\0\1\144"+
+    "\2\0\1\144\1\0\1\144\2\0\1\144\7\0\1\144"+
+    "\6\0\3\3\3\0\4\3\12\0\5\3\1\153\3\3"+
+    "\1\0\4\3\1\0\2\3\2\0\1\3\6\0\3\3"+
+    "\3\0\4\3\12\0\4\3\1\154\4\3\1\0\4\3"+
+    "\1\0\2\3\2\0\1\3\7\0\1\152\4\0\3\152"+
+    "\16\0\1\152\2\0\1\152\1\0\1\152\2\0\1\152"+
+    "\7\0\1\152\5\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[1440];
+    int [] result = new int[3174];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -203,13 +270,13 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\6\1\1\11\2\1\7\11\3\1\1\11"+
-    "\1\1\3\0\1\1\1\0\1\1\1\0\2\11\7\1"+
-    "\1\0\1\1\1\0\4\1\3\0\1\11\5\1\1\0"+
-    "\5\1";
+    "\1\0\1\11\4\1\1\11\2\1\1\11\2\1\5\11"+
+    "\10\1\1\11\10\1\5\11\3\0\1\1\1\0\1\1"+
+    "\1\0\2\11\15\1\1\11\2\1\2\11\3\1\1\0"+
+    "\1\1\1\0\14\1\3\0\1\11\12\1\1\0\11\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[61];
+    int [] result = new int[108];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -305,7 +372,7 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
     char [] map = new char[0x110000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 158) {
+    while (i < 170) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);
@@ -669,117 +736,205 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { ;
+            { System.out.println("no_space");return new java_cup.runtime.Symbol(sym.no_space , yytext());
             }
-          case 29: break;
+          case 51: break;
           case 2: 
-            { System.out.println("ident");return new java_cup.runtime.Symbol(sym.ident , yytext());
+            { System.out.println("ident");return new java_cup.runtime.Symbol(sym.iden , yytext());
             }
-          case 30: break;
+          case 52: break;
           case 3: 
             { System.out.println("constint");return new java_cup.runtime.Symbol(sym.constint , yytext());
             }
-          case 31: break;
+          case 53: break;
           case 4: 
             { System.out.println("addition_sign");return new java_cup.runtime.Symbol(sym.addition_sign , yytext());
             }
-          case 32: break;
+          case 54: break;
           case 5: 
             { System.out.println("substraction_sign");return new java_cup.runtime.Symbol(sym.substraction_sign , yytext());
             }
-          case 33: break;
-          case 6: 
-            { System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" Starting of comment symbol not matching.\\");
-            }
-          case 34: break;
-          case 7: 
-            { System.out.println("slash");return new java_cup.runtime.Symbol(sym.slash , yytext());
-            }
-          case 35: break;
-          case 8: 
-            { System.out.println("multiplication_sign");return new java_cup.runtime.Symbol(sym.multiplication_sign , yytext());
-            }
-          case 36: break;
-          case 9: 
-            { System.out.println("left_parenthesis");return new java_cup.runtime.Symbol(sym.left_parenthesis , yytext());
-            }
-          case 37: break;
-          case 10: 
-            { System.out.println("right_par");return new java_cup.runtime.Symbol(sym.right_parenthesis , yytext());
-            }
-          case 38: break;
-          case 11: 
-            { System.out.println("left_bracket");return new java_cup.runtime.Symbol(sym.left_bracket , yytext());
-            }
-          case 39: break;
-          case 12: 
-            { System.out.println("right_bracket");return new java_cup.runtime.Symbol(sym.right_bracket , yytext());
-            }
-          case 40: break;
-          case 13: 
-            { System.out.println("semicolon");return new java_cup.runtime.Symbol(sym.semicolon , yytext());
-            }
-          case 41: break;
-          case 14: 
-            { System.out.println("equal");return new java_cup.runtime.Symbol(sym.equal , yytext());
-            }
-          case 42: break;
-          case 15: 
-            { System.out.println("comma");return new java_cup.runtime.Symbol(sym.comma , yytext());
-            }
-          case 43: break;
-          case 16: 
-            { System.out.println("percent");return new java_cup.runtime.Symbol(sym.percent , yytext());
-            }
-          case 44: break;
-          case 17: 
-            { System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" Hexadecimal number not completed.\\");
-            }
-          case 45: break;
-          case 18: 
-            { System.out.println("comment");
-            }
-          case 46: break;
-          case 19: 
-            { System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" Incorrect finish comment sign.\\");
-            }
-          case 47: break;
-          case 20: 
-            { System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" Start part of comment missing.\\");
-            }
-          case 48: break;
-          case 21: 
-            { System.out.println("constfloat");return new java_cup.runtime.Symbol(sym.constfloat , yytext());
-            }
-          case 49: break;
-          case 22: 
-            { System.out.println("constlit");return new java_cup.runtime.Symbol(sym.constint , yytext());
-            }
-          case 50: break;
-          case 23: 
-            { System.out.println("int");return new java_cup.runtime.Symbol(sym.int_token , yytext());
-            }
-          case 51: break;
-          case 24: 
-            { System.out.println("void");return new java_cup.runtime.Symbol(sym.void_token , yytext());
-            }
-          case 52: break;
-          case 25: 
-            { System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" More than one addition sign added.\\");
-            }
-          case 53: break;
-          case 26: 
-            { System.out.println("float");return new java_cup.runtime.Symbol(sym.float_token , yytext());
-            }
-          case 54: break;
-          case 27: 
-            { System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" More than one dot added.\\");
-            }
           case 55: break;
-          case 28: 
-            { System.out.println("return");return new java_cup.runtime.Symbol(sym.return_token , yytext());
+          case 6: 
+            { System.out.println("dot");return new java_cup.runtime.Symbol(sym.dot , yytext());
             }
           case 56: break;
+          case 7: 
+            { System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" Starting of comment symbol not matching.\\");
+            }
+          case 57: break;
+          case 8: 
+            { System.out.println("slash");return new java_cup.runtime.Symbol(sym.slash , yytext());
+            }
+          case 58: break;
+          case 9: 
+            { System.out.println("multiplication_sign");return new java_cup.runtime.Symbol(sym.multiplication_sign , yytext());
+            }
+          case 59: break;
+          case 10: 
+            { System.out.println("left_parenthesis");return new java_cup.runtime.Symbol(sym.left_parenthesis , yytext());
+            }
+          case 60: break;
+          case 11: 
+            { System.out.println("right_par");return new java_cup.runtime.Symbol(sym.right_parenthesis , yytext());
+            }
+          case 61: break;
+          case 12: 
+            { System.out.println("left_bracket");return new java_cup.runtime.Symbol(sym.left_bracket , yytext());
+            }
+          case 62: break;
+          case 13: 
+            { System.out.println("right_bracket");return new java_cup.runtime.Symbol(sym.right_bracket , yytext());
+            }
+          case 63: break;
+          case 14: 
+            { System.out.println("comma");return new java_cup.runtime.Symbol(sym.comma , yytext());
+            }
+          case 64: break;
+          case 15: 
+            { System.out.println("percent");return new java_cup.runtime.Symbol(sym.percent , yytext());
+            }
+          case 65: break;
+          case 16: 
+            { System.out.println("equal");return new java_cup.runtime.Symbol(sym.equal , yytext());
+            }
+          case 66: break;
+          case 17: 
+            { System.out.println("less_than");return new java_cup.runtime.Symbol(sym.less_than , yytext());
+            }
+          case 67: break;
+          case 18: 
+            { System.out.println("more_than");return new java_cup.runtime.Symbol(sym.more_than , yytext());
+            }
+          case 68: break;
+          case 19: 
+            { System.out.println("semicolon");return new java_cup.runtime.Symbol(sym.semicolon , yytext());
+            }
+          case 69: break;
+          case 20: 
+            { System.out.println("left_squarebracket");return new java_cup.runtime.Symbol(sym.left_squarebracket , yytext());
+            }
+          case 70: break;
+          case 21: 
+            { System.out.println("right_squarebracket");return new java_cup.runtime.Symbol(sym.right_squarebracket , yytext());
+            }
+          case 71: break;
+          case 22: 
+            { System.out.println("colon");return new java_cup.runtime.Symbol(sym.colon , yytext());
+            }
+          case 72: break;
+          case 23: 
+            { System.out.println("space");return new java_cup.runtime.Symbol(sym.space);
+            }
+          case 73: break;
+          case 24: 
+            { System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" Hexadecimal number not completed.\\");
+            }
+          case 74: break;
+          case 25: 
+            { System.out.println("comment");return new java_cup.runtime.Symbol(sym.comment, yytext());
+            }
+          case 75: break;
+          case 26: 
+            { System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" Incorrect finish comment sign.\\");
+            }
+          case 76: break;
+          case 27: 
+            { System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" Start part of comment missing.\\");
+            }
+          case 77: break;
+          case 28: 
+            { System.out.println("or");return new java_cup.runtime.Symbol(sym.or , yytext());
+            }
+          case 78: break;
+          case 29: 
+            { System.out.println("if");return new java_cup.runtime.Symbol(sym.if_token , yytext());
+            }
+          case 79: break;
+          case 30: 
+            { System.out.println("do");return new java_cup.runtime.Symbol(sym.do_token , yytext());
+            }
+          case 80: break;
+          case 31: 
+            { System.out.println("double_equal");return new java_cup.runtime.Symbol(sym.double_equal , yytext());
+            }
+          case 81: break;
+          case 32: 
+            { System.out.println("more_than_equal_to");return new java_cup.runtime.Symbol(sym.more_than_equal_to , yytext());
+            }
+          case 82: break;
+          case 33: 
+            { System.out.println("less_than_equal_to");return new java_cup.runtime.Symbol(sym.less_than_equal_to , yytext());
+            }
+          case 83: break;
+          case 34: 
+            { System.out.println("constfloat");return new java_cup.runtime.Symbol(sym.constfloat , yytext());
+            }
+          case 84: break;
+          case 35: 
+            { System.out.println("constlit");return new java_cup.runtime.Symbol(sym.constint , yytext());
+            }
+          case 85: break;
+          case 36: 
+            { System.out.println("int");return new java_cup.runtime.Symbol(sym.int_token , yytext());
+            }
+          case 86: break;
+          case 37: 
+            { System.out.println("not");return new java_cup.runtime.Symbol(sym.not , yytext());
+            }
+          case 87: break;
+          case 38: 
+            { System.out.println("for");return new java_cup.runtime.Symbol(sym.for_token , yytext());
+            }
+          case 88: break;
+          case 39: 
+            { System.out.println("anda");return new java_cup.runtime.Symbol(sym.and , yytext());
+            }
+          case 89: break;
+          case 40: 
+            { System.out.println("comment");return new java_cup.runtime.Symbol(sym.comment , yytext());
+            }
+          case 90: break;
+          case 41: 
+            { System.out.println("void");return new java_cup.runtime.Symbol(sym.void_token , yytext());
+            }
+          case 91: break;
+          case 42: 
+            { System.out.println("then");return new java_cup.runtime.Symbol(sym.then_token , yytext());
+            }
+          case 92: break;
+          case 43: 
+            { System.out.println("else");return new java_cup.runtime.Symbol(sym.else_token , yytext());
+            }
+          case 93: break;
+          case 44: 
+            { System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" More than one addition sign added.\\");
+            }
+          case 94: break;
+          case 45: 
+            { System.out.println("float");return new java_cup.runtime.Symbol(sym.float_token , yytext());
+            }
+          case 95: break;
+          case 46: 
+            { System.out.println("while");return new java_cup.runtime.Symbol(sym.while_token , yytext());
+            }
+          case 96: break;
+          case 47: 
+            { System.out.println("until");return new java_cup.runtime.Symbol(sym.until , yytext());
+            }
+          case 97: break;
+          case 48: 
+            { System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" More than one dot added.\\");
+            }
+          case 98: break;
+          case 49: 
+            { System.out.println("struct");return new java_cup.runtime.Symbol(sym.struct , yytext());
+            }
+          case 99: break;
+          case 50: 
+            { System.out.println("return");return new java_cup.runtime.Symbol(sym.return_token , yytext());
+            }
+          case 100: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

@@ -1,15 +1,18 @@
 import java_cup.runtime.*;
 
 terminal ident, left_parenthesis, right_parenthesis, left_bracket, right_bracket, 
-addition_sign, substraction_sign, multiplication_sign, slash, percent, constint, constfloat, constlit, return_token, void_token, int_token,
- float_token,comma, semicolon, equal;
-non terminal   PROGRAM, PART, TYPE, RESTPART, LISTPARAM, BLQ, SENTLIST, SENT, LID, EXP, OP, FACTOR, LEXP;
+addition_sign, substraction_sign, multiplication_sign, slash, percent, constint, constfloat, constlit, void_token, int_token,
+ float_token,comma, semicolon, equal, until_token, while_token, else_token, if_token, then_token, for_token, return_token,
+more_than, less_than, less_than_equal_to, more_than_equal_to, double_equal, do_token,  and, or, not;
+non terminal   PROGRAM, PART, TYPE, RESTPART, LISTPARAM, BLQ, SENTLIST, SENT, LID, EXP, OP, FACTOR, LEXP, LCOND, OPL, COND, OPR;
 
 precedence left addition_sign;
 precedence left substraction_sign;
 precedence left multiplication_sign;
 precedence left slash;
 precedence left percent;
+precedence left and;
+precedence left or;
 
 PROGRAM ::= PART PROGRAM | PART;
 PART ::= TYPE RESTPART;
@@ -19,7 +22,16 @@ LISTPARAM ::= LISTPARAM comma TYPE ident | TYPE ident;
 TYPE ::= void_token | int_token | float_token;
 
 SENTLIST ::= SENTLIST SENT | SENT;
-SENT ::= TYPE LID semicolon | ident equal EXP semicolon | ident left_parenthesis LEXP right_parenthesis semicolon | return_token EXP semicolon;
+SENT::= TYPE LID semicolon | ident equal EXP semicolon | ident left_parenthesis LEXP right_parenthesis semicolon | return_token EXP semicolon;
+SENT ::= if_token left_parenthesis LCOND right_parenthesis then_token BLQ else_token BLQ
+	| for_token left_parenthesis ident equal EXP semicolon LCOND semicolon ident equal EXP right_parenthesis BLQ
+	| while_token left_parenthesis LCOND right_parenthesis BLQ
+	| do_token BLQ until_token left_parenthesis LCOND right_parenthesis
+	| BLQ;
+LCOND ::= LCOND OPL LCOND | COND | not COND;
+OPL ::= or | and;
+COND ::= EXP OPR EXP;
+OPR::= double_equal | less_than | more_than | more_than_equal_to | less_than_equal_to;
 LID ::= ident | LID comma ident;
 LEXP ::= EXP | LEXP comma EXP;
 EXP ::= EXP OP EXP | FACTOR;

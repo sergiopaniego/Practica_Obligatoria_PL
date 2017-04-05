@@ -6,28 +6,43 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int percent = 11;
-  public static final int float_token = 18;
-  public static final int constfloat = 13;
-  public static final int substraction_sign = 8;
-  public static final int addition_sign = 7;
-  public static final int right_bracket = 6;
-  public static final int multiplication_sign = 9;
-  public static final int right_parenthesis = 4;
-  public static final int left_bracket = 5;
-  public static final int semicolon = 20;
-  public static final int return_token = 15;
-  public static final int constlit = 14;
-  public static final int ident = 2;
-  public static final int EOF = 0;
-  public static final int constint = 12;
-  public static final int void_token = 16;
-  public static final int equal = 21;
   public static final int slash = 10;
-  public static final int error = 1;
+  public static final int right_parenthesis = 4;
+  public static final int percent = 11;
+  public static final int until_token = 21;
+  public static final int more_than_equal_to = 31;
+  public static final int comma = 18;
+  public static final int multiplication_sign = 9;
+  public static final int more_than = 28;
+  public static final int constfloat = 13;
+  public static final int addition_sign = 7;
   public static final int left_parenthesis = 3;
-  public static final int int_token = 17;
-  public static final int comma = 19;
+  public static final int less_than = 29;
+  public static final int while_token = 22;
+  public static final int equal = 20;
+  public static final int less_than_equal_to = 30;
+  public static final int do_token = 33;
+  public static final int EOF = 0;
+  public static final int float_token = 17;
+  public static final int ident = 2;
+  public static final int right_bracket = 6;
+  public static final int error = 1;
+  public static final int double_equal = 32;
+  public static final int substraction_sign = 8;
+  public static final int or = 35;
+  public static final int else_token = 23;
+  public static final int void_token = 15;
+  public static final int constint = 12;
+  public static final int for_token = 26;
+  public static final int if_token = 24;
+  public static final int not = 36;
+  public static final int and = 34;
+  public static final int then_token = 25;
+  public static final int constlit = 14;
+  public static final int semicolon = 19;
+  public static final int left_bracket = 5;
+  public static final int int_token = 16;
+  public static final int return_token = 27;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -44,13 +59,28 @@ public class sym {
   "constint",
   "constfloat",
   "constlit",
-  "return_token",
   "void_token",
   "int_token",
   "float_token",
   "comma",
   "semicolon",
-  "equal"
+  "equal",
+  "until_token",
+  "while_token",
+  "else_token",
+  "if_token",
+  "then_token",
+  "for_token",
+  "return_token",
+  "more_than",
+  "less_than",
+  "less_than_equal_to",
+  "more_than_equal_to",
+  "double_equal",
+  "do_token",
+  "and",
+  "or",
+  "not"
   };
 }
 
