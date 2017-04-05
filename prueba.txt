@@ -1,4 +1,4 @@
-$identificador
+$identificador (fadsf);
 Enteras:
 Base decimal: +123 , -69 , 45
 Base octal: 0+123 , 0-64 , 045
