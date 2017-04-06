@@ -43,6 +43,8 @@ public class sym {
   public static final int constlit = 14;
   public static final int semicolon = 19;
   public static final int left_bracket = 5;
+  public static final int right_squarebracket = 40;
+  public static final int left_squarebracket = 39;
   public static final int dot = 38;
   public static final int int_token = 16;
   public static final int return_token = 27;
@@ -85,7 +87,9 @@ public class sym {
   "or",
   "not",
   "struct",
-  "dot"
+  "dot",
+  "left_squarebracket",
+  "right_squarebracket"
   };
 }
 
