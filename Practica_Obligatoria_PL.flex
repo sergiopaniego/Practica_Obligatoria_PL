@@ -71,6 +71,8 @@ Constlit = "'"([^\n]|"\\'"|[^'])+"'"
 "and" {System.out.println("and");return new java_cup.runtime.Symbol(sym.and, yytext());}
 "or" {System.out.println("or");return new java_cup.runtime.Symbol(sym.or, yytext());}
 "not" {System.out.println("not");return new java_cup.runtime.Symbol(sym.not, yytext());}
+"struct" {System.out.println("struct");return new java_cup.runtime.Symbol(sym.struct, yytext());}
+"." {System.out.println("dot");return new java_cup.runtime.Symbol(sym.dot, yytext());}
 {Identifier}	{System.out.println("ident");return new java_cup.runtime.Symbol(sym.ident , yytext());}
 
 //Error detection
