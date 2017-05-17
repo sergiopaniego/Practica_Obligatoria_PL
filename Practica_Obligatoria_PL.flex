@@ -7,6 +7,10 @@ import java_cup.runtime.*;
 %cup
 %unicode
 
+%{
+    StringBuffer string = new StringBuffer();
+%}
+
 
 Letter = [A-Za-z]
 Symbol = [A-Za-z0-9]|"$"|"_"
@@ -75,7 +79,7 @@ Constlit = "'"([^\n]|"\\'"|[^'])+"'"
 "." {return new java_cup.runtime.Symbol(sym.dot, yyline, yycolumn);}
 "[" {return new java_cup.runtime.Symbol(sym.left_squarebracket ,  yyline, yycolumn);}
 "]" {return new java_cup.runtime.Symbol(sym.right_squarebracket ,  yyline, yycolumn);}
-{Identifier}	{return new java_cup.runtime.Symbol(sym.ident , yyline, yycolumn);}
+{Identifier}	{String yytext = yytext(); return new java_cup.runtime.Symbol(sym.ident , yyline, yycolumn,yytext);}
 
 //Error detection
 "*/" {System.out.println("\\Error in line:"+yyline+" Column: "+ yycolumn +". "+ yytext()+" Start part of comment missing.\\");}
