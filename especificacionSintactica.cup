@@ -31,31 +31,39 @@ precedence left or;
 precedence left equal;
 
 S ::= {:System.out.println("<!DOCTYPE html>");System.out.println("<html>");System.out.println("<head>");System.out.println("<title></title>");System.out.println("</head>");System.out.println("<body>");:}PROGRAM {:System.out.println("</body>");System.out.println("</HTML>");:};
-PROGRAM ::=  PART PROGRAM|  PART;
-PART ::= TYPE:type RESTPART {:switch(type){
-case "v": System.out.println("void"); break;
-case "i": System.out.println("int"); break;
-case "f": System.out.println("float"); break;
-};:} |  struct ident left_bracket LFIELD right_bracket semicolon;
-RESTPART ::= ident left_parenthesis LISTPARAM right_parenthesis BLQ;
-BLQ ::= left_bracket SENTLIST right_bracket;
-LISTPARAM ::= LISTPARAM comma TYPE:type ident {:switch(type){
-case "v": System.out.println("void"); break;
-case "i": System.out.println("int"); break;
-case "f": System.out.println("float"); break;
-};:} | TYPE:type ident {:switch(type){
-case "v": System.out.println("void"); break;
-case "i": System.out.println("int"); break;
-case "f": System.out.println("float"); break;
-};:};
+PROGRAM ::=  PART PROGRAM {::}|  PART;
+PART ::= TYPE:type {:switch(type){
+case "v": System.out.print("void "); break;
+case "i": System.out.print("int "); break;
+case "f": System.out.print("float "); break;
+};:} RESTPART  |  struct ident:ident1 left_bracket {:System.out.println("struct "+ident1+" {");:} LFIELD right_bracket semicolon {:System.out.println("};");:};
+RESTPART ::= ident:ident1 left_parenthesis {:System.out.print(ident1+" (");:} LISTPARAM right_parenthesis {:System.out.print(")");:} BLQ;
+BLQ ::= left_bracket {:System.out.println("{");:} SENTLIST right_bracket {:System.out.println("}");:};
+LISTPARAM ::= LISTPARAM comma {:System.out.print(", ");:}TYPE:type ident:ident1 {:switch(type){
+case "v": System.out.print("void "); break;
+case "i": System.out.print("int "); break;
+case "f": System.out.print("float "); break;
+};System.out.print(ident1);:} | TYPE:type ident:ident1 {:switch(type){
+case "v": System.out.print("void "); break;
+case "i": System.out.print("int "); break;
+case "f": System.out.print("float "); break;
+}; System.out.print(ident1);:};
 TYPE ::= void_token {:RESULT = "v";:}| int_token {:RESULT = "i";:} | float_token{:RESULT = "f";:};
-SENTLIST ::= SENTLIST SENT | SENT;
-SENT ::=  ID equal EXP semicolon;
-SENT::= TYPE LID semicolon | ident equal EXP semicolon | ident left_parenthesis LEXP right_parenthesis semicolon | return_token EXP semicolon;
-SENT ::= if_token left_parenthesis LCOND right_parenthesis then_token BLQ else_token BLQ
-	| for_token left_parenthesis ident equal EXP semicolon LCOND semicolon ident equal EXP right_parenthesis BLQ
-	| while_token left_parenthesis LCOND right_parenthesis BLQ
-	| do_token BLQ until_token left_parenthesis LCOND right_parenthesis
+SENTLIST ::= SENTLIST SENT | SENT ;
+SENT ::=  ID:ident1 equal {:System.out.print(ident1+" = ");:} EXP semicolon {:System.out.println(";");:};
+SENT::= TYPE:type {:switch(type){
+case "v": System.out.print("void "); break;
+case "i": System.out.print("int "); break;
+case "f": System.out.print("float "); break;
+};:} LID:ident1 semicolon {:System.out.println(ident1+";");:} | ident:ident1 equal  {:System.out.print(ident1+" = ");:} 
+EXP semicolon {:System.out.println(";");:} 
+| ident:ident1 left_parenthesis {:System.out.print(ident1+"( ");:} LEXP right_parenthesis semicolon {:System.out.println(");");:} 
+| return_token {:System.out.print("return");:} EXP semicolon {:System.out.println(";");:};
+SENT ::= if_token left_parenthesis {:System.out.print("if (");:}LCOND right_parenthesis then_token {:System.out.print(") then");:} BLQ else_token {:System.out.print("else");:} BLQ
+	| for_token left_parenthesis ident:ident1 equal {:System.out.print("for("+ident1+ " = ");:} EXP semicolon {:System.out.println(";");:} 
+        LCOND semicolon ident:ident2 equal {:System.out.print("; "+ident2+" = ");:} EXP right_parenthesis {:System.out.print(")");:}BLQ
+	| while_token left_parenthesis {:System.out.print("while (");:} LCOND right_parenthesis {:System.out.print(")");:} BLQ
+	| do_token {:System.out.print("do ");:} BLQ until_token left_parenthesis {:System.out.print("until (");:} LCOND right_parenthesis {:System.out.print(")");:}
 	| BLQ;
 LCOND ::= LCOND OPL:opl LCOND {:switch(opl){
 case "a": System.out.println("and"); break;
@@ -71,19 +79,27 @@ case "de": System.out.println("=="); break;
 };:};
 OPR::= double_equal{:RESULT = "de";:} | less_than {:RESULT = "lt";:} | more_than {:RESULT = "mt";:} | more_than_equal_to  {:RESULT = "mte";:} | less_than_equal_to {:RESULT = "lte";:};
 
-LEXP ::= EXP | LEXP comma EXP;
-EXP ::= EXP OP:op EXP {:switch(op){
-case "sa": System.out.println("+"); break;
-case "ss": System.out.println("-"); break;
-case "ms": System.out.println("*"); break;
-case "s": System.out.println("/"); break;
-case "p": System.out.println("%"); break;
-};:} | FACTOR;
+LEXP ::= EXP | LEXP comma {:System.out.println(",");:} EXP;
+EXP ::= EXP:exp1 OP:op EXP:exp2 {:System.out.print(exp1);switch(op){
+case "sa": System.out.print(" + "); break;
+case "ss": System.out.println(" - "); break;
+case "ms": System.out.println(" * "); break;
+case "s": System.out.println(" / "); break;
+case "p": System.out.println(" % "); break;
+};System.out.print(exp2);:} | FACTOR ;
 OP ::= addition_sign {:RESULT = "as";:} | substraction_sign {:RESULT = "ss";:} | multiplication_sign {:RESULT = "ms";:}| slash {:RESULT = "s";:}| percent{:RESULT = "p";:};
-FACTOR ::= ident left_parenthesis LEXP right_parenthesis | left_parenthesis EXP right_parenthesis |
-	 constint | constfloat | constlit | ID:id {:System.out.println(id);:};
-LFIELD ::= LFIELD TYPE LID semicolon  | TYPE LID semicolon;
-ID ::= ident:ident1 {:String s = "ident: "+ident1;System.out.println(s);RESULT = s;:}  | ident:ident1 dot ident:ident2 {:RESULT=ident1;:};
-LID ::= ID | LID comma ID;
-ID ::= ident:ident1 LDIM {:RESULT = ident1;System.out.println(ident1);:};
+FACTOR ::= ident:ident1 left_parenthesis {:System.out.print(ident1 +" (");:}LEXP right_parenthesis {:System.out.print(")");:} | left_parenthesis {:System.out.print("(");:}EXP right_parenthesis {:System.out.print(")");:}|
+	 constint:const1 {:System.out.print(const1);:} | constfloat:const1 {:System.out.print(const1);:} | constlit: const1 {:System.out.print(const1);:} | ID:id {:System.out.print(id);:};
+LFIELD ::= LFIELD TYPE:type LID:ident1 semicolon {:switch(type){
+case "v": System.out.print("void "); break;
+case "i": System.out.print("int "); break;
+case "f": System.out.print("float "); break;
+};System.out.println(ident1+";");:} | TYPE:type LID:ident1 semicolon {:switch(type){
+case "v": System.out.print("void "); break;
+case "i": System.out.print("int "); break;
+case "f": System.out.print("float "); break;
+};System.out.println(ident1+";");:};
+ID ::= ident:ident1 {:String s = ident1;RESULT = s;:}  | ident:ident1 dot ident:ident2 {:RESULT=ident1;:};
+LID ::= ID:ident1 {:RESULT = ident1;:}  | LID comma ID;
+ID ::= ident:ident1 LDIM {:RESULT = ident1;:};
 LDIM ::= LDIM left_squarebracket constint right_squarebracket | left_squarebracket constint right_squarebracket;
