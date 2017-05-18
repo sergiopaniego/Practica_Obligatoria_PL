@@ -40,9 +40,9 @@ Constlit = "'"([^\n]|"\\'"|[^'])+"'"
 "//".* {}
 "/*"[^"*/"]*"*/" {}
 
-{Constint}	{return new java_cup.runtime.Symbol(sym.constint , yyline, yycolumn);}
-{Constfloat}	{return new java_cup.runtime.Symbol(sym.constfloat , yyline, yycolumn);}
-{Constlit}	{return new java_cup.runtime.Symbol(sym.constint , yyline, yycolumn);}
+{Constint}	{String yytext = yytext(); return new java_cup.runtime.Symbol(sym.constint , yyline, yycolumn,yytext);}
+{Constfloat}	{String yytext = yytext(); return new java_cup.runtime.Symbol(sym.constfloat , yyline, yycolumn,yytext);}
+{Constlit}	{String yytext = yytext(); return new java_cup.runtime.Symbol(sym.constint , yyline, yycolumn,yytext);}
 
 "(" {return new java_cup.runtime.Symbol(sym.left_parenthesis , yyline, yycolumn);}
 ")" {return new java_cup.runtime.Symbol(sym.right_parenthesis , yyline, yycolumn);}

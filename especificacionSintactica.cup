@@ -58,35 +58,35 @@ case "f": System.out.print("float "); break;
 };:} LID:ident1 semicolon {:System.out.println(ident1+";");:} | ident:ident1 equal  {:System.out.print(ident1+" = ");:} 
 EXP semicolon {:System.out.println(";");:} 
 | ident:ident1 left_parenthesis {:System.out.print(ident1+"( ");:} LEXP right_parenthesis semicolon {:System.out.println(");");:} 
-| return_token {:System.out.print("return");:} EXP semicolon {:System.out.println(";");:};
+| return_token {:System.out.print("return ");:} EXP semicolon {:System.out.println(";");:};
 SENT ::= if_token left_parenthesis {:System.out.print("if (");:}LCOND right_parenthesis then_token {:System.out.print(") then");:} BLQ else_token {:System.out.print("else");:} BLQ
 	| for_token left_parenthesis ident:ident1 equal {:System.out.print("for("+ident1+ " = ");:} EXP semicolon {:System.out.println(";");:} 
         LCOND semicolon ident:ident2 equal {:System.out.print("; "+ident2+" = ");:} EXP right_parenthesis {:System.out.print(")");:}BLQ
 	| while_token left_parenthesis {:System.out.print("while (");:} LCOND right_parenthesis {:System.out.print(")");:} BLQ
 	| do_token {:System.out.print("do ");:} BLQ until_token left_parenthesis {:System.out.print("until (");:} LCOND right_parenthesis {:System.out.print(")");:}
 	| BLQ;
-LCOND ::= LCOND OPL:opl LCOND {:switch(opl){
-case "a": System.out.println("and"); break;
-case "o": System.out.println("or"); break;
-};:}| COND | not COND;
+LCOND ::= LCOND OPL:opl {:switch(opl){
+case "a": System.out.print(" and "); break;
+case "o": System.out.print(" or "); break;
+};:} LCOND | COND | not {:System.out.print(" not ");:}COND;
 OPL ::= or {:RESULT = "o";:} | and {:RESULT = "a";:} ;
-COND ::= EXP OPR:opr   EXP {:switch(opr){
-case "lt": System.out.println("<"); break;
-case "mt": System.out.println(">"); break;
-case "mte": System.out.println(">="); break;
-case "lte": System.out.println("<="); break;
-case "de": System.out.println("=="); break;
-};:};
+COND ::= EXP OPR:opr {:switch(opr){
+case "lt": System.out.print(" < "); break;
+case "mt": System.out.print(" > "); break;
+case "mte": System.out.print(" >= "); break;
+case "lte": System.out.print(" <= "); break;
+case "de": System.out.print(" == "); break;
+};:}   EXP ;
 OPR::= double_equal{:RESULT = "de";:} | less_than {:RESULT = "lt";:} | more_than {:RESULT = "mt";:} | more_than_equal_to  {:RESULT = "mte";:} | less_than_equal_to {:RESULT = "lte";:};
 
-LEXP ::= EXP | LEXP comma {:System.out.println(",");:} EXP;
-EXP ::= EXP:exp1 OP:op EXP:exp2 {:System.out.print(exp1);switch(op){
-case "sa": System.out.print(" + "); break;
-case "ss": System.out.println(" - "); break;
-case "ms": System.out.println(" * "); break;
-case "s": System.out.println(" / "); break;
-case "p": System.out.println(" % "); break;
-};System.out.print(exp2);:} | FACTOR ;
+LEXP ::= EXP | LEXP comma {:System.out.print(", ");:} EXP;
+EXP ::= EXP OP:op {:switch(op){
+case "as": System.out.print(" + "); break;
+case "ss": System.out.print(" - "); break;
+case "ms": System.out.print(" * "); break;
+case "s": System.out.print(" / "); break;
+case "p": System.out.print(" % "); break;
+}:} EXP  | FACTOR ;
 OP ::= addition_sign {:RESULT = "as";:} | substraction_sign {:RESULT = "ss";:} | multiplication_sign {:RESULT = "ms";:}| slash {:RESULT = "s";:}| percent{:RESULT = "p";:};
 FACTOR ::= ident:ident1 left_parenthesis {:System.out.print(ident1 +" (");:}LEXP right_parenthesis {:System.out.print(")");:} | left_parenthesis {:System.out.print("(");:}EXP right_parenthesis {:System.out.print(")");:}|
 	 constint:const1 {:System.out.print(const1);:} | constfloat:const1 {:System.out.print(const1);:} | constlit: const1 {:System.out.print(const1);:} | ID:id {:System.out.print(id);:};
@@ -99,7 +99,7 @@ case "v": System.out.print("void "); break;
 case "i": System.out.print("int "); break;
 case "f": System.out.print("float "); break;
 };System.out.println(ident1+";");:};
-ID ::= ident:ident1 {:String s = ident1;RESULT = s;:}  | ident:ident1 dot ident:ident2 {:RESULT=ident1;:};
-LID ::= ID:ident1 {:RESULT = ident1;:}  | LID comma ID;
-ID ::= ident:ident1 LDIM {:RESULT = ident1;:};
-LDIM ::= LDIM left_squarebracket constint right_squarebracket | left_squarebracket constint right_squarebracket;
+ID ::= ident:ident1 {:String s = ident1;RESULT = s;:}  | ident:ident1 dot ident:ident2 {:String s = ident1+"."+ident2;RESULT=s;:};
+LID ::= ID:ident1 {:RESULT = ident1;:}  | LID:lid1 comma ID:id1 {:String s = lid1+" , "+id1; RESULT = s;:};
+ID ::= ident:ident1 LDIM:ldim1 {:String s = ident1+ldim1;RESULT = s;:};
+LDIM ::= LDIM:ldim1 left_squarebracket constint:const1 right_squarebracket {:String s = ldim1+"["+const1+"]";RESULT = s;:}| left_squarebracket constint:const1 right_squarebracket {:String s = "["+const1+"]";RESULT = s;:};
