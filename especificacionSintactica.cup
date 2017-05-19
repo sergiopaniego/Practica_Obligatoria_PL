@@ -3,10 +3,12 @@ import java_cup.runtime.*;
 
 parser code{:
     String filename = Analizador.filename;
-	public void syntax_error(Symbol s){
-    System.out.println("compiler has detected a syntax error at line " + s.left 
+    String structure;
+    String[] functions;
+    public void syntax_error(Symbol s){
+        System.out.println("compiler has detected a syntax error at line " + s.left 
         + " column " + s.right);
-	}
+    }
 :}
 
 
@@ -19,9 +21,9 @@ terminal  left_parenthesis, right_parenthesis, left_bracket, right_bracket,
 terminal  String ident;
 
 
-non terminal  PROGRAM, PART, RESTPART, LISTPARAM, BLQ, SENTLIST, SENT, LID, EXP, FACTOR, LEXP, LFIELD,
-	 LCOND, COND, LDIM, S;
-non terminal String ID, OPL, OPR, TYPE, OP;
+non terminal String RESTPART, LISTPARAM, BLQ, SENTLIST, SENT, LID, FACTOR, LEXP, LFIELD,
+	 LCOND, COND, LDIM, S, ID, OPL, OPR, TYPE, OP, EXP, PART;
+non terminal String[] PROGRAM;
 
 
 
@@ -35,83 +37,150 @@ precedence left or;
 precedence left equal;
 
 S ::= {:System.out.println("<!DOCTYPE html>");System.out.println("<html>");System.out.println("<head>");System.out.println("<title></title>");System.out.println("<style>.cte {color:rgb(19,189,72);}.ident {color:rgb(55,40,244);}.palres {color:rgb(0,0,0);font-weight:bold;}</style>");System.out.println("</head>");System.out.println("<body>");
-System.out.println("<A NAME=\"inicio\"><H1>Programa: "+filename+"</H1><H2>Funciones</H2>");
-:}
-    PROGRAM:prog {:System.out.println("</body>");System.out.println("</HTML>");:};
-PROGRAM ::=  PART:part {::} PROGRAM 
-    |  PART ;
-PART ::= TYPE:type {:System.out.println("<hr/>");
-    System.out.println("<A NAME=\"rest\">");System.out.println("<code>");System.out.print("<SPAN CLASS=\"palres\">");switch(type){
-    case "v": System.out.print("void </SPAN>"); break;
-    case "i": System.out.print("int </SPAN>"); break;
-    case "f": System.out.print("float </SPAN>"); break;
-    };:} RESTPART {:System.out.println("</code>");:}  |  struct ident:ident1 left_bracket {:System.out.println("<code>"); 
-System.out.println("<SPAN CLASS=\"palres\">struct</SPAN><SPAN CLASS=\"ident\"> "+ident1+"</SPAN> {");:} LFIELD right_bracket semicolon {:System.out.println("};"); System.out.println("<A HREF=\"#"+ident1+"\">Comienzo de la función</A>");
-System.out.println("<A HREF=\"#inicio\">Comienzo de la página</A>");System.out.println("</code>");System.out.println("<BR/>");:};
-RESTPART ::= ident:ident1 left_parenthesis {:System.out.print("<SPAN CLASS=\"ident\">"+ident1+"</SPAN> ("); RESULT =ident1;:} LISTPARAM right_parenthesis {:System.out.println(")");:} BLQ   {:System.out.println("<A HREF=\"#"+ident1+"\">Comienzo de la función</A>");
-System.out.println("<A HREF=\"#inicio\">Comienzo de la página</A>"); System.out.println("<BR/>");:};
-BLQ ::= left_bracket {:System.out.println("{");:} SENTLIST right_bracket {:System.out.println("}<BR/>");:};
-LISTPARAM ::= LISTPARAM comma {:System.out.print(", ");:}TYPE:type ident:ident1 {:System.out.print("<SPAN CLASS=\"palres\">");switch(type){
-case "v": System.out.print("void </SPAN>"); break;
-case "i": System.out.print("int </SPAN>"); break;
-case "f": System.out.print("float </SPAN>"); break;
-};System.out.print("<SPAN CLASS=\"ident\">"+ident1+"</SPAN>");:} | TYPE:type ident:ident1 {:System.out.print("<SPAN CLASS=\"palres\">");switch(type){
-case "v": System.out.print("void </SPAN>"); break;
-case "i": System.out.print("int </SPAN>"); break;
-case "f": System.out.print("float </SPAN>"); break;
-}; System.out.print("<SPAN CLASS=\"ident\">"+ident1+"</SPAN>");:};
+    System.out.println("<A NAME=\"inicio\"><H1>Programa: "+filename+"</H1><H2>Funciones</H2>");:}
+        PROGRAM:prog {:
+    System.out.println("<UL>");
+    for(int i=0;i<prog.length;i++){
+        String[] parts = prog[i].split("\\{");
+        System.out.println("<LI><A HREF=\"#intercambio\">"+parts[0]+"</A></LI>");
+    }
+System.out.println("</UL>");
+
+
+    for(int i=0;i<prog.length;i++){
+        System.out.println(prog[i]);
+    }
+    System.out.println("</body>");System.out.println("</HTML>");:};
+
+PROGRAM ::=  PART:part  PROGRAM:program {:
+    String[] res = new String[program.length+1];
+    res[0]=part;
+    for(int i=1;i<program.length+1;i++){
+        res[i]=program[i-1];
+    }
+    structure ="";
+    RESULT=res;:}
+|  PART:part {:String[] res={part}; structure =""; RESULT=res;:};
+
+PART ::= TYPE:type {:structure = "<hr/>";
+    structure = structure + "<A NAME=\"rest\">";structure = structure + "<code>";structure = structure +  "<SPAN CLASS=\"palres\">";
+    switch(type){
+        case "v": structure = structure + "void </SPAN>"; break;
+        case "i": structure = structure + "int </SPAN>"; break;
+        case "f": structure = structure + "float </SPAN>"; break;
+    }:} RESTPART:restpart {:structure = structure + "</code>";RESULT=structure;:}  
+|  struct ident:ident1 left_bracket {:structure = structure + "<code>"; 
+    structure = structure +  "<SPAN CLASS=\"palres\">struct</SPAN><SPAN CLASS=\"ident\"> "+ident1+"</SPAN> {";:} LFIELD:lfield right_bracket semicolon {:structure = structure + "};"; structure = structure + "<A HREF=\"#"+ident1+"\">Comienzo de la función</A> <A HREF=\"#inicio\">Comienzo de la página</A>";structure = structure +  "</code>";structure = structure +  "<BR/>"; :};
+
+RESTPART ::= ident:ident1 left_parenthesis {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN> (";:} LISTPARAM:listparam right_parenthesis {:structure = structure + ")";:} BLQ:blq   {:structure = structure + "<A HREF=\"#"+ident1+"\">Comienzo de la función</A>";
+    structure = structure + " <A HREF=\"#inicio\">Comienzo de la página</A>"; structure = structure + "<BR/>";:};
+
+BLQ ::= left_bracket {:structure = structure + "{";:} SENTLIST:sentlist right_bracket {:structure = structure + "}<BR/>";:};
+
+LISTPARAM ::= LISTPARAM comma {:structure = structure + ", ";:}TYPE:type ident:ident1 {:structure = structure + "<SPAN CLASS=\"palres\">";
+    switch(type){
+    case "v": structure = structure + "void </SPAN>"; break;
+    case "i": structure = structure + "int </SPAN>"; break;
+    case "f": structure = structure + "float </SPAN>"; break;
+    };structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";:} 
+| TYPE:type ident:ident1 {:structure = structure + "<SPAN CLASS=\"palres\">";
+    switch(type){
+    case "v": structure = structure + "void </SPAN>"; break;
+    case "i": structure = structure + "int </SPAN>"; break;
+    case "f": structure = structure + "float </SPAN>"; break;
+    }; structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";:};
+
 TYPE ::= void_token {:RESULT = "v";:}| int_token {:RESULT = "i";:} | float_token{:RESULT = "f";:};
-SENTLIST ::= SENTLIST {:System.out.print("<DIV style=\"text-indent: .5cm\">");:} SENT {:System.out.println("</DIV>");:} | {:System.out.print("<DIV style=\"text-indent: .5cm\">");:} SENT {:System.out.println("</DIV>");:};
-SENT ::=  ID:ident1 equal {:System.out.print("<SPAN CLASS=\"ident\">"+ident1+"</SPAN> = ");:} EXP semicolon {:System.out.print(";");:};
-SENT::= TYPE:type {:switch(type){
-case "v": System.out.print("<SPAN CLASS=\"palres\">void</SPAN>  "); break;
-case "i": System.out.print("<SPAN CLASS=\"palres\">int</SPAN> "); break;
-case "f": System.out.print("<SPAN CLASS=\"palres\">float</SPAN> "); break;
-};:} LID:ident1 semicolon {:System.out.print("<SPAN CLASS=\"ident\">"+ident1+"</SPAN>;");:} | ident:ident1 equal  {:System.out.print("<SPAN CLASS=\"ident\">"+ident1+"</SPAN> = ");:} 
-EXP semicolon {:System.out.print(";");:} 
-| ident:ident1 left_parenthesis {:System.out.print("<SPAN CLASS=\"ident\">"+ident1+"</SPAN>( ");:} LEXP right_parenthesis semicolon {:System.out.print(");");:} 
-| return_token {:System.out.print("<SPAN CLASS=\"palres\">return</SPAN> ");:} EXP semicolon {:System.out.print(";");:};
-SENT ::= if_token left_parenthesis {:System.out.print("if (");:}LCOND right_parenthesis then_token {:System.out.println(") then");System.out.println("<BR/>");:} BLQ else_token {:System.out.println("else");System.out.println("<BR/>");:} BLQ
-	| for_token left_parenthesis ident:ident1 equal {:System.out.print("for("+"<SPAN CLASS=\"ident\">"+ident1+ "</SPAN> = ");:} EXP semicolon {:System.out.print(";");:} 
-        LCOND semicolon ident:ident2 equal {:System.out.print("; <SPAN CLASS=\"ident\">"+ident2+"</SPAN> = ");:} EXP right_parenthesis {:System.out.println(")");System.out.println("<BR/>");:}BLQ
-	| while_token left_parenthesis {:System.out.print("while (");:} LCOND right_parenthesis {:System.out.println(")");System.out.println("<BR/>");:} BLQ
-	| do_token {:System.out.println("do ");System.out.println("<BR/>");:} BLQ until_token left_parenthesis {:System.out.print("until (");:} LCOND right_parenthesis {:System.out.print(")");:}
-	| BLQ;
-LCOND ::= LCOND OPL:opl {:switch(opl){
-case "a": System.out.print(" and "); break;
-case "o": System.out.print(" or "); break;
-};:} LCOND | COND | not {:System.out.print(" not ");:}COND;
+
+SENTLIST ::= SENTLIST {:structure = structure + "<DIV style=\"text-indent: .5cm\">";:} SENT:sent {:structure = structure + "</DIV>";RESULT = sent;:} 
+| {:structure = structure + "<DIV style=\"text-indent: .5cm\">";:} SENT:sent {:structure = structure  + "</DIV>";RESULT = sent;:};
+
+SENT ::=  ID:ident1 equal {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN> = ";:} EXP:exp semicolon {:structure = structure  + ";";RESULT = exp;:};
+
+SENT::= TYPE:type {:
+    switch(type){
+    case "v": structure = structure + "<SPAN CLASS=\"palres\">void</SPAN>  "; break;
+    case "i": structure = structure + "<SPAN CLASS=\"palres\">int</SPAN> "; break;
+    case "f": structure = structure + "<SPAN CLASS=\"palres\">float</SPAN> "; break;
+    };:} LID:ident1 semicolon {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>;";:} 
+| ident:ident1 equal  {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN> = ";:} 
+    EXP:exp semicolon {:structure = structure + ";";RESULT = exp;:} 
+| ident:ident1 left_parenthesis {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>( ";:} LEXP:lexp right_parenthesis semicolon {:structure = structure + ";";RESULT = lexp;:} 
+| return_token {:structure = structure + "<SPAN CLASS=\"palres\">return</SPAN> ";:} EXP semicolon {:structure = structure + ";";:};
+
+SENT ::= if_token left_parenthesis {:structure = structure + "if (";:}LCOND:lcond right_parenthesis then_token {:structure = structure + ") then";structure = structure + "<BR/>";RESULT = lcond;:} BLQ:blq else_token {:structure = structure + "else";structure = structure + "<BR/>"; RESULT = blq;:} BLQ
+| for_token left_parenthesis ident:ident1 equal {:structure = structure + "for("+"<SPAN CLASS=\"ident\">"+ident1+ "</SPAN> = ";:} EXP:exp semicolon {:structure = structure +  ";";RESULT = exp;:} 
+        LCOND:lcond semicolon ident:ident2 equal {:lcond = lcond + "; <SPAN CLASS=\"ident\">"+ident2+"</SPAN> = ";RESULT = lcond;:} EXP:exp1 right_parenthesis {:exp1 = exp1 + ")";exp1 = exp1 + "<BR/>"; RESULT = exp1;:}BLQ
+| while_token left_parenthesis {:structure = structure + "while (";:} LCOND:lcond right_parenthesis {:structure = structure + ")";lcond = lcond + "<BR/>";RESULT = lcond;:} BLQ
+| do_token {:structure = structure + "do ";structure = structure + "<BR/>";:} BLQ:blq until_token left_parenthesis {:structure = structure + "until (";RESULT = blq;:} LCOND:lcond right_parenthesis {:structure = structure + ")";RESULT = lcond;:}
+| BLQ:blq {::};
+
+LCOND ::= LCOND OPL:opl {:
+    switch(opl){
+        case "a": structure = structure + " and "; break;
+        case "o": structure = structure + " or "; break;
+    };:} LCOND 
+| COND 
+| not {:structure = structure + " not ";:}COND;
+
 OPL ::= or {:RESULT = "o";:} | and {:RESULT = "a";:} ;
-COND ::= EXP OPR:opr {:switch(opr){
-case "lt": System.out.print(" < "); break;
-case "mt": System.out.print(" > "); break;
-case "mte": System.out.print(" >= "); break;
-case "lte": System.out.print(" <= "); break;
-case "de": System.out.print(" == "); break;
-};:}   EXP ;
+
+COND ::= EXP OPR:opr {:
+    switch(opr){
+        case "lt": structure = structure + " < "; break;
+        case "mt": structure = structure + " > "; break;
+        case "mte": structure = structure + " >= "; break;
+        case "lte": structure = structure + " <= "; break;
+        case "de": structure = structure + " == "; break;
+    };:}   EXP ;
+
 OPR::= double_equal{:RESULT = "de";:} | less_than {:RESULT = "lt";:} | more_than {:RESULT = "mt";:} | more_than_equal_to  {:RESULT = "mte";:} | less_than_equal_to {:RESULT = "lte";:};
 
-LEXP ::= EXP | LEXP comma {:System.out.print(", ");:} EXP;
-EXP ::= EXP OP:op {:switch(op){
-case "as": System.out.print(" + "); break;
-case "ss": System.out.print(" - "); break;
-case "ms": System.out.print(" * "); break;
-case "s": System.out.print(" / "); break;
-case "p": System.out.print(" % "); break;
-}:} EXP  | FACTOR ;
+LEXP ::= EXP | LEXP comma {:String s = ", ";RESULT = s;:} EXP;
+
+EXP ::= EXP OP:op {:
+    switch(op){
+    case "as": structure = structure + " + "; break;
+    case "ss": structure = structure + " - "; break;
+    case "ms": structure = structure + " * "; break;
+    case "s": structure = structure + " / "; break;
+    case "p": structure = structure + " % "; break;
+    }:} EXP  | FACTOR ;
+
 OP ::= addition_sign {:RESULT = "as";:} | substraction_sign {:RESULT = "ss";:} | multiplication_sign {:RESULT = "ms";:}| slash {:RESULT = "s";:}| percent{:RESULT = "p";:};
-FACTOR ::= ident:ident1 left_parenthesis {:System.out.print("<SPAN CLASS=\"ident\">"+ident1 +"</SPAN> (");:}LEXP right_parenthesis {:System.out.print(")");:} | left_parenthesis {:System.out.print("(");:}EXP right_parenthesis {:System.out.print(")");:}|
-	 constint:const1 {:System.out.print("<SPAN CLASS=\"cte\">"+const1+"</SPAN>");:} | constfloat:const1 {:System.out.print("<SPAN CLASS=\"cte\">"+const1+"</SPAN>");:} | constlit: const1 {:System.out.print("<SPAN CLASS=\"cte\">"+const1+"</SPAN>");:} | ID:id {:System.out.print(id);:};
-LFIELD ::= LFIELD TYPE:type LID:ident1 semicolon {:switch(type){
-case "v": System.out.print("void "); break;
-case "i": System.out.print("int "); break;
-case "f": System.out.print("float "); break;
-};System.out.println("<SPAN CLASS=\"ident\">"+ident1+"</SPAN>;");:} | TYPE:type LID:ident1 semicolon {:switch(type){
-case "v": System.out.print("void "); break;
-case "i": System.out.print("int "); break;
-case "f": System.out.print("float "); break;
-};System.out.println("<SPAN CLASS=\"ident\">"+ident1+"</SPAN>;");:};
-ID ::= ident:ident1 {:String s = "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";RESULT = s;:}  | ident:ident1 dot ident:ident2 {:String s = "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>.<SPAN CLASS=\"ident\">"+ident2+"</SPAN>";RESULT=s;:};
-LID ::= ID:ident1 {:RESULT = "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";:}  | LID:lid1 comma ID:id1 {:String s = lid1+"</SPAN> , <SPAN CLASS=\"ident\">"+id1; RESULT = s;:};
-ID ::= ident:ident1 LDIM:ldim1 {:String s = "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>"+ldim1;RESULT = s;:};
-LDIM ::= LDIM:ldim1 left_squarebracket constint:const1 right_squarebracket {:String s = ldim1+"["+const1+"]";RESULT = s;:}| left_squarebracket constint:const1 right_squarebracket {:String s = "["+const1+"]";RESULT = s;:};
+
+FACTOR ::= ident:ident1 left_parenthesis {:
+    structure = structure + "<SPAN CLASS=\"ident\">"+ident1 +"</SPAN> (";:}LEXP:lexp right_parenthesis {:structure = structure + ")" ; RESULT = lexp;:} 
+| left_parenthesis {:
+    structure = structure + "(";:}EXP:exp right_parenthesis {:structure = structure + ")";RESULT = exp;:}
+| constint:const1 {:
+    structure = structure + "<SPAN CLASS=\"cte\">"+const1+"</SPAN>";:} 
+| constfloat:const1 {:
+    structure = structure + "<SPAN CLASS=\"cte\">"+const1+"</SPAN>";:} 
+| constlit: const1 {:
+    structure = structure + "<SPAN CLASS=\"cte\">"+const1+"</SPAN>" ;:} 
+| ID:id {::};
+
+LFIELD ::= LFIELD TYPE:type LID:ident1 semicolon {:
+    switch(type){
+    case "v": structure = structure + "void "; break;
+    case "i": structure = structure + "int "; break;
+    case "f": structure = structure + "float "; break;
+    };structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>;";:}
+ | TYPE:type LID:ident1 semicolon {:
+    switch(type){
+    case "v": structure = structure + "void "; break;
+    case "i": structure = structure + "int "; break;
+    case "f": structure = structure + "float "; break;
+    }; structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>;";:};
+
+ID ::= ident:ident1 {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";:}  
+| ident:ident1 dot ident:ident2 {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>.<SPAN CLASS=\"ident\">"+ident2+"</SPAN>";:};
+
+LID ::= ID:ident1 {:RESULT = "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";:}  
+| LID:lid1 comma ID:id1 {:structure = structure + "</SPAN> , <SPAN CLASS=\"ident\">"+id1;:};
+
+ID ::= ident:ident1 LDIM:ldim1 {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>"+ldim1;:};
+
+LDIM ::= LDIM:ldim1 left_squarebracket constint:const1 right_squarebracket {:structure = structure + "["+const1+"]";:}
+| left_squarebracket constint:const1 right_squarebracket {:structure = structure + "["+const1+"]";:};
