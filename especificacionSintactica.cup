@@ -6,6 +6,7 @@ parser code{:
     String structure;
     String header;
     String[] functions;
+    String actualHeader;
     String[] headers = new String[0];
     public void syntax_error(Symbol s){
         System.out.println("compiler has detected a syntax error at line " + s.left 
@@ -49,7 +50,7 @@ S ::= {:System.out.println("<!DOCTYPE html>");System.out.println("<html>");Syste
     System.out.println("</UL>");
 
 
-    for(int i=0;i<prog.length;i++){
+    for(int i=1;i<prog.length;i++){
         System.out.println(prog[i]);
     }
     System.out.println("</body>");System.out.println("</HTML>");:};
@@ -90,7 +91,8 @@ RESTPART ::= ident:ident1 left_parenthesis {:
     }
     resheaders[headers.length]=header;
     headers = resheaders;
-    structure = structure + ")";
+    String actualHeader = header;
+    structure = structure + ")<BR/>";
     :} BLQ:blq   {:structure = structure + "<A HREF=\"#"+ident1+"\">Comienzo de la función</A>";
     structure = structure + " <A HREF=\"#inicio\">Comienzo de la página</A>"; structure = structure + "<BR/>";:};
 
@@ -117,17 +119,17 @@ TYPE ::= void_token {:RESULT = "v";:}| int_token {:RESULT = "i";:} | float_token
 SENTLIST ::= SENTLIST {:structure = structure + "<DIV style=\"text-indent: .5cm\">";:} SENT:sent {:structure = structure + "</DIV>";RESULT = sent;:} 
 | {:structure = structure + "<DIV style=\"text-indent: .5cm\">";:} SENT:sent {:structure = structure  + "</DIV>";RESULT = sent;:};
 
-SENT ::=  ID:ident1 equal {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN> = ";:} EXP:exp semicolon {:structure = structure  + ";";RESULT = exp;:};
+SENT ::=  ID:ident1 equal {:structure = structure + " = ";:} EXP:exp semicolon {:structure = structure  + ";";RESULT = exp;:};
 
 SENT::= TYPE:type {:
     switch(type){
     case "v": structure = structure + "<SPAN CLASS=\"palres\">void</SPAN>  "; break;
     case "i": structure = structure + "<SPAN CLASS=\"palres\">int</SPAN> "; break;
     case "f": structure = structure + "<SPAN CLASS=\"palres\">float</SPAN> "; break;
-    };:} LID:ident1 semicolon {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>;";:} 
+    };:} LID:ident1 semicolon {:structure = structure + ";";:} 
 | ident:ident1 equal  {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN> = ";:} 
     EXP:exp semicolon {:structure = structure + ";";RESULT = exp;:} 
-| ident:ident1 left_parenthesis {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>( ";:} LEXP:lexp right_parenthesis semicolon {:structure = structure + ";";RESULT = lexp;:} 
+| ident:ident1 left_parenthesis {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>(";:} LEXP:lexp right_parenthesis semicolon {:structure = structure + ");";RESULT = lexp;:} 
 | return_token {:structure = structure + "<SPAN CLASS=\"palres\">return</SPAN> ";:} EXP semicolon {:structure = structure + ";";:};
 
 SENT ::= if_token left_parenthesis {:structure = structure + "if (";:}LCOND:lcond right_parenthesis then_token {:structure = structure + ") then";structure = structure + "<BR/>";RESULT = lcond;:} BLQ:blq else_token {:structure = structure + "else";structure = structure + "<BR/>"; RESULT = blq;:} BLQ
@@ -158,7 +160,7 @@ COND ::= EXP OPR:opr {:
 
 OPR::= double_equal{:RESULT = "de";:} | less_than {:RESULT = "lt";:} | more_than {:RESULT = "mt";:} | more_than_equal_to  {:RESULT = "mte";:} | less_than_equal_to {:RESULT = "lte";:};
 
-LEXP ::= EXP | LEXP comma {:String s = ", ";RESULT = s;:} EXP;
+LEXP ::= EXP | LEXP comma {:structure = structure + ", ";String s = ", ";RESULT = s;:} EXP;
 
 EXP ::= EXP OP:op {:
     switch(op){
@@ -196,13 +198,13 @@ LFIELD ::= LFIELD TYPE:type LID:ident1 semicolon {:
     case "f": structure = structure + "float "; break;
     }; structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>;";:};
 
-ID ::= ident:ident1 {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";:}  
-| ident:ident1 dot ident:ident2 {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>.<SPAN CLASS=\"ident\">"+ident2+"</SPAN>";:};
+ID ::= ident:ident1 {:structure = structure + "<a href=\"#"+actualHeader+"\">"+ident1+"</a>";:}  
+| ident:ident1 dot ident:ident2 {:structure = structure + "<a href=\"#"+actualHeader+"\">"+ident1+"</a>.<a href=\"#"+actualHeader+"\">"+ident2+"</a>";:};
 
-LID ::= ID:ident1 {:RESULT = "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";:}  
-| LID:lid1 comma ID:id1 {:structure = structure + "</SPAN> , <SPAN CLASS=\"ident\">"+id1;:};
+LID ::= ID:ident1 {:RESULT = "<a href=\"#"+actualHeader+"\">"+ident1+"</a>";:}  
+| LID:lid1 comma {:structure = structure +", ";:} ID:id1 {:RESULT =  "<a href=\"#"+actualHeader+"\">"+id1+"</a>";:};
 
-ID ::= ident:ident1 LDIM:ldim1 {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>"+ldim1;:};
+ID ::= ident:ident1 LDIM:ldim1 {:structure = structure + "<a href=\"#"+actualHeader+"\">"+ident1+"</a>"+ldim1;:};
 
 LDIM ::= LDIM:ldim1 left_squarebracket constint:const1 right_squarebracket {:structure = structure + "["+const1+"]";:}
 | left_squarebracket constint:const1 right_squarebracket {:structure = structure + "["+const1+"]";:};
