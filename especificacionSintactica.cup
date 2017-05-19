@@ -4,7 +4,9 @@ import java_cup.runtime.*;
 parser code{:
     String filename = Analizador.filename;
     String structure;
+    String header;
     String[] functions;
+    String[] headers = new String[0];
     public void syntax_error(Symbol s){
         System.out.println("compiler has detected a syntax error at line " + s.left 
         + " column " + s.right);
@@ -40,11 +42,11 @@ S ::= {:System.out.println("<!DOCTYPE html>");System.out.println("<html>");Syste
     System.out.println("<A NAME=\"inicio\"><H1>Programa: "+filename+"</H1><H2>Funciones</H2>");:}
         PROGRAM:prog {:
     System.out.println("<UL>");
-    for(int i=0;i<prog.length;i++){
-        String[] parts = prog[i].split("\\{");
-        System.out.println("<LI><A HREF=\"#intercambio\">"+parts[0]+"</A></LI>");
+    for(int i=0;i<headers.length;i++){
+        String[] parts = headers[i].split(" ");
+        System.out.println("<LI><A HREF=\"#"+parts[1]+"\">"+headers[i]+"</A></LI>");
     }
-System.out.println("</UL>");
+    System.out.println("</UL>");
 
 
     for(int i=0;i<prog.length;i++){
@@ -54,6 +56,7 @@ System.out.println("</UL>");
 
 PROGRAM ::=  PART:part  PROGRAM:program {:
     String[] res = new String[program.length+1];
+
     res[0]=part;
     for(int i=1;i<program.length+1;i++){
         res[i]=program[i-1];
@@ -62,33 +65,52 @@ PROGRAM ::=  PART:part  PROGRAM:program {:
     RESULT=res;:}
 |  PART:part {:String[] res={part}; structure =""; RESULT=res;:};
 
-PART ::= TYPE:type {:structure = "<hr/>";
+PART ::= TYPE:type {: structure = "<hr/>";
     structure = structure + "<A NAME=\"rest\">";structure = structure + "<code>";structure = structure +  "<SPAN CLASS=\"palres\">";
     switch(type){
-        case "v": structure = structure + "void </SPAN>"; break;
-        case "i": structure = structure + "int </SPAN>"; break;
-        case "f": structure = structure + "float </SPAN>"; break;
+        case "v": structure = structure + "void </SPAN>";header = "void "; break;
+        case "i": structure = structure + "int </SPAN>";header = "int "; break;
+        case "f": structure = structure + "float </SPAN>";header = "float "; break;
     }:} RESTPART:restpart {:structure = structure + "</code>";RESULT=structure;:}  
 |  struct ident:ident1 left_bracket {:structure = structure + "<code>"; 
     structure = structure +  "<SPAN CLASS=\"palres\">struct</SPAN><SPAN CLASS=\"ident\"> "+ident1+"</SPAN> {";:} LFIELD:lfield right_bracket semicolon {:structure = structure + "};"; structure = structure + "<A HREF=\"#"+ident1+"\">Comienzo de la función</A> <A HREF=\"#inicio\">Comienzo de la página</A>";structure = structure +  "</code>";structure = structure +  "<BR/>"; :};
 
-RESTPART ::= ident:ident1 left_parenthesis {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN> (";:} LISTPARAM:listparam right_parenthesis {:structure = structure + ")";:} BLQ:blq   {:structure = structure + "<A HREF=\"#"+ident1+"\">Comienzo de la función</A>";
+RESTPART ::= ident:ident1 left_parenthesis {:
+    header = header + ident1;
+    structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN> (";
+    :} LISTPARAM:listparam right_parenthesis {:
+    String[] resheaders = new String[headers.length+1];
+ 
+    
+    header = header +" ("+listparam+")";
+    
+    
+    for(int i=0;i<headers.length;i++){
+        resheaders[i]=headers[i];
+    }
+    resheaders[headers.length]=header;
+    headers = resheaders;
+    structure = structure + ")";
+    :} BLQ:blq   {:structure = structure + "<A HREF=\"#"+ident1+"\">Comienzo de la función</A>";
     structure = structure + " <A HREF=\"#inicio\">Comienzo de la página</A>"; structure = structure + "<BR/>";:};
 
 BLQ ::= left_bracket {:structure = structure + "{";:} SENTLIST:sentlist right_bracket {:structure = structure + "}<BR/>";:};
 
-LISTPARAM ::= LISTPARAM comma {:structure = structure + ", ";:}TYPE:type ident:ident1 {:structure = structure + "<SPAN CLASS=\"palres\">";
+LISTPARAM ::= LISTPARAM:listparam comma {:structure = structure + ", ";:}TYPE:type ident:ident1 {:structure = structure + "<SPAN CLASS=\"palres\">";
     switch(type){
-    case "v": structure = structure + "void </SPAN>"; break;
-    case "i": structure = structure + "int </SPAN>"; break;
-    case "f": structure = structure + "float </SPAN>"; break;
-    };structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";:} 
-| TYPE:type ident:ident1 {:structure = structure + "<SPAN CLASS=\"palres\">";
+    case "v": structure = structure + "void </SPAN>";listparam = listparam + ", void "+ident1; break;
+    case "i": structure = structure + "int </SPAN>";listparam = listparam + ", int "+ident1; break;
+    case "f": structure = structure + "float </SPAN>";listparam = listparam + ", float "+ident1; break;
+    };structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";RESULT = listparam;:} 
+| TYPE:type ident:ident1 {:String param = "";structure = structure + "<SPAN CLASS=\"palres\">";
     switch(type){
-    case "v": structure = structure + "void </SPAN>"; break;
-    case "i": structure = structure + "int </SPAN>"; break;
-    case "f": structure = structure + "float </SPAN>"; break;
-    }; structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";:};
+    case "v": structure = structure + "void </SPAN>";param = param + "void "; break;
+    case "i": structure = structure + "int </SPAN>";param = param + "int "; break;
+    case "f": structure = structure + "float </SPAN>";param = param + "float "; break;
+    }; structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";
+    param = param + ident1; 
+    RESULT = param;
+:};
 
 TYPE ::= void_token {:RESULT = "v";:}| int_token {:RESULT = "i";:} | float_token{:RESULT = "f";:};
 

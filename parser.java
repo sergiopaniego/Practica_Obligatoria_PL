@@ -378,7 +378,9 @@ public class parser extends java_cup.runtime.lr_parser {
 
     String filename = Analizador.filename;
     String structure;
+    String header;
     String[] functions;
+    String[] headers = new String[0];
     public void syntax_error(Symbol s){
         System.out.println("compiler has detected a syntax error at line " + s.left 
         + " column " + s.right);
@@ -430,11 +432,11 @@ System.out.println("<!DOCTYPE html>");System.out.println("<html>");System.out.pr
 		String[] prog = (String[])((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
     System.out.println("<UL>");
-    for(int i=0;i<prog.length;i++){
-        String[] parts = prog[i].split("\\{");
-        System.out.println("<LI><A HREF=\"#intercambio\">"+parts[0]+"</A></LI>");
+    for(int i=0;i<headers.length;i++){
+        String[] parts = headers[i].split(" ");
+        System.out.println("<LI><A HREF=\"#"+parts[1]+"\">"+headers[i]+"</A></LI>");
     }
-System.out.println("</UL>");
+    System.out.println("</UL>");
 
 
     for(int i=0;i<prog.length;i++){
@@ -471,6 +473,7 @@ System.out.println("</UL>");
 		String[] program = (String[])((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
     String[] res = new String[program.length+1];
+
     res[0]=part;
     for(int i=1;i<program.length+1;i++){
         res[i]=program[i-1];
@@ -500,12 +503,12 @@ System.out.println("</UL>");
 		int typeleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int typeright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String type = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-structure = "<hr/>";
+ structure = "<hr/>";
     structure = structure + "<A NAME=\"rest\">";structure = structure + "<code>";structure = structure +  "<SPAN CLASS=\"palres\">";
     switch(type){
-        case "v": structure = structure + "void </SPAN>"; break;
-        case "i": structure = structure + "int </SPAN>"; break;
-        case "f": structure = structure + "float </SPAN>"; break;
+        case "v": structure = structure + "void </SPAN>";header = "void "; break;
+        case "i": structure = structure + "int </SPAN>";header = "int "; break;
+        case "f": structure = structure + "float </SPAN>";header = "float "; break;
     }
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$1",22, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -565,7 +568,10 @@ structure = structure + "<code>";
 		int ident1left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int ident1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String ident1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN> (";
+
+    header = header + ident1;
+    structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN> (";
+    
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$3",24, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -580,7 +586,20 @@ structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN> (";
 		int listparamleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int listparamright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String listparam = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-structure = structure + ")";
+
+    String[] resheaders = new String[headers.length+1];
+ 
+    
+    header = header +" ("+listparam+")";
+    
+    
+    for(int i=0;i<headers.length;i++){
+        resheaders[i]=headers[i];
+    }
+    resheaders[headers.length]=header;
+    headers = resheaders;
+    structure = structure + ")";
+    
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$4",25, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -633,6 +652,9 @@ structure = structure + "{";
           case 14: // NT$6 ::= 
             {
               String RESULT =null;
+		int listparamleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int listparamright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		String listparam = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 structure = structure + ", ";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$6",27, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -644,6 +666,9 @@ structure = structure + ", ";
               String RESULT =null;
               // propagate RESULT from NT$6
                 RESULT = (String) ((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		int listparamleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;
+		int listparamright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).right;
+		String listparam = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
 		int typeleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int typeright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String type = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
@@ -652,10 +677,10 @@ structure = structure + ", ";
 		String ident1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		structure = structure + "<SPAN CLASS=\"palres\">";
     switch(type){
-    case "v": structure = structure + "void </SPAN>"; break;
-    case "i": structure = structure + "int </SPAN>"; break;
-    case "f": structure = structure + "float </SPAN>"; break;
-    };structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";
+    case "v": structure = structure + "void </SPAN>";listparam = listparam + ", void "+ident1; break;
+    case "i": structure = structure + "int </SPAN>";listparam = listparam + ", int "+ident1; break;
+    case "f": structure = structure + "float </SPAN>";listparam = listparam + ", float "+ident1; break;
+    };structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";RESULT = listparam;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("LISTPARAM",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -670,12 +695,15 @@ structure = structure + ", ";
 		int ident1left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int ident1right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String ident1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		structure = structure + "<SPAN CLASS=\"palres\">";
+		String param = "";structure = structure + "<SPAN CLASS=\"palres\">";
     switch(type){
-    case "v": structure = structure + "void </SPAN>"; break;
-    case "i": structure = structure + "int </SPAN>"; break;
-    case "f": structure = structure + "float </SPAN>"; break;
+    case "v": structure = structure + "void </SPAN>";param = param + "void "; break;
+    case "i": structure = structure + "int </SPAN>";param = param + "int "; break;
+    case "f": structure = structure + "float </SPAN>";param = param + "float "; break;
     }; structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>";
+    param = param + ident1; 
+    RESULT = param;
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("LISTPARAM",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
