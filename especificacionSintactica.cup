@@ -1,4 +1,6 @@
 import java_cup.runtime.*;
+
+
 parser code{:
 	public void syntax_error(Symbol s){
     System.out.println("compiler has detected a syntax error at line " + s.left 
@@ -15,7 +17,8 @@ terminal  left_parenthesis, right_parenthesis, left_bracket, right_bracket,
 	left_squarebracket, right_squarebracket;
 terminal  String ident;
 
-non terminal PROGRAM, PART, RESTPART, LISTPARAM, BLQ, SENTLIST, SENT, LID, EXP, FACTOR, LEXP, LFIELD,
+
+non terminal  PROGRAM, PART, RESTPART, LISTPARAM, BLQ, SENTLIST, SENT, LID, EXP, FACTOR, LEXP, LFIELD,
 	 LCOND, COND, LDIM, S;
 non terminal String ID, OPL, OPR, TYPE, OP;
 
@@ -30,9 +33,11 @@ precedence left and;
 precedence left or;
 precedence left equal;
 
-S ::= {:System.out.println("<!DOCTYPE html>");System.out.println("<html>");System.out.println("<head>");System.out.println("<title></title>");System.out.println("<style>.cte {color:rgb(19,189,72);}.ident {color:rgb(55,40,244);}.palres {color:rgb(0,0,0);font-weight:bold;}</style>");System.out.println("</head>");System.out.println("<body>");:}
-    PROGRAM {:System.out.println("</body>");System.out.println("</HTML>");:};
-PROGRAM ::=  PART:part PROGRAM 
+S ::= {:System.out.println("<!DOCTYPE html>");System.out.println("<html>");System.out.println("<head>");System.out.println("<title></title>");System.out.println("<style>.cte {color:rgb(19,189,72);}.ident {color:rgb(55,40,244);}.palres {color:rgb(0,0,0);font-weight:bold;}</style>");System.out.println("</head>");System.out.println("<body>");
+System.out.println("<A NAME=\"inicio\"><H1>Programa: EjemploAprobado.c</H1><H2>Funciones</H2>");
+:}
+    PROGRAM:prog {:System.out.println("</body>");System.out.println("</HTML>");:};
+PROGRAM ::=  PART:part {::} PROGRAM 
     |  PART ;
 PART ::= TYPE:type {:System.out.println("<hr/>");
     System.out.println("<A NAME=\"rest\">");System.out.println("<code>");System.out.print("<SPAN CLASS=\"palres\">");switch(type){
@@ -95,7 +100,7 @@ case "p": System.out.print(" % "); break;
 }:} EXP  | FACTOR ;
 OP ::= addition_sign {:RESULT = "as";:} | substraction_sign {:RESULT = "ss";:} | multiplication_sign {:RESULT = "ms";:}| slash {:RESULT = "s";:}| percent{:RESULT = "p";:};
 FACTOR ::= ident:ident1 left_parenthesis {:System.out.print("<SPAN CLASS=\"ident\">"+ident1 +"</SPAN> (");:}LEXP right_parenthesis {:System.out.print(")");:} | left_parenthesis {:System.out.print("(");:}EXP right_parenthesis {:System.out.print(")");:}|
-	 constint:const1 {:System.out.print(const1);:} | constfloat:const1 {:System.out.print(const1);:} | constlit: const1 {:System.out.print(const1);:} | ID:id {:System.out.print(id);:};
+	 constint:const1 {:System.out.print("<SPAN CLASS=\"cte\">"+const1+"</SPAN>");:} | constfloat:const1 {:System.out.print("<SPAN CLASS=\"cte\">"+const1+"</SPAN>");:} | constlit: const1 {:System.out.print("<SPAN CLASS=\"cte\">"+const1+"</SPAN>");:} | ID:id {:System.out.print(id);:};
 LFIELD ::= LFIELD TYPE:type LID:ident1 semicolon {:switch(type){
 case "v": System.out.print("void "); break;
 case "i": System.out.print("int "); break;
