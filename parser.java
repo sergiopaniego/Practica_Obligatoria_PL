@@ -377,6 +377,7 @@ public class parser extends java_cup.runtime.lr_parser {
 
 
 
+    String filename = Analizador.filename;
 	public void syntax_error(Symbol s){
     System.out.println("compiler has detected a syntax error at line " + s.left 
         + " column " + s.right);
@@ -412,7 +413,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 System.out.println("<!DOCTYPE html>");System.out.println("<html>");System.out.println("<head>");System.out.println("<title></title>");System.out.println("<style>.cte {color:rgb(19,189,72);}.ident {color:rgb(55,40,244);}.palres {color:rgb(0,0,0);font-weight:bold;}</style>");System.out.println("</head>");System.out.println("<body>");
-System.out.println("<A NAME=\"inicio\"><H1>Programa: EjemploAprobado.c</H1><H2>Funciones</H2>");
+System.out.println("<A NAME=\"inicio\"><H1>Programa: "+filename+"</H1><H2>Funciones</H2>");
 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$0",21, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }

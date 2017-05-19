@@ -1,3 +1,4 @@
+package practica_pl;
 
 
 import java.io.IOException;
@@ -5,7 +6,9 @@ import java.io.PrintWriter;
 /**
 */
 public class Analizador{
+    public static String filename;
 public static void main(String argv[]){
+    filename=argv[0];
   if (argv.length == 0) {
     System.out.println("Inserta nombre de archivo\n"+
     "( Usage : java Analizador <inputfile> )");
