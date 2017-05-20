@@ -416,8 +416,8 @@ class CUP$parser$actions {
           case 0: // NT$0 ::= 
             {
               String RESULT =null;
-System.out.println("<!DOCTYPE html>");System.out.println("<html>");System.out.println("<head>");System.out.println("<title></title>");System.out.println("<style>.cte {color:rgb(19,189,72);}.ident {color:rgb(55,40,244);}.palres {color:rgb(0,0,0);font-weight:bold;}</style>");System.out.println("</head>");System.out.println("<body>");
-    System.out.println("<A NAME=\"inicio\"><H1>Programa: "+filename+"</H1><H2>Funciones</H2>");
+System.out.println("<!DOCTYPE html>");System.out.println("<html>");System.out.println("<head>");System.out.println("<title>"+filename+"</title>");System.out.println("<style>\n.cte {color:rgb(19,189,72);}\n.ident {color:rgb(55,40,244);}\n.palres {color:rgb(0,0,0);font-weight:bold;}\n</style>");System.out.println("</head>\n");System.out.println("<body>");
+    System.out.println("<A NAME=\"inicio\">\n<H1>Programa: "+filename+"</H1>\n<H2>Funciones</H2>");
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$0",21, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -437,7 +437,7 @@ System.out.println("<!DOCTYPE html>");System.out.println("<html>");System.out.pr
         String[] parts = headers[i].split(" ");
         System.out.println("<LI><A HREF=\"#"+parts[1]+"\">"+headers[i]+"</A></LI>");
     }
-    System.out.println("</UL>");
+    System.out.println("</UL>\n");
 
     for(int i=0;i<prog.length;i++){
         System.out.println(prog[i]);
@@ -510,8 +510,8 @@ System.out.println("<!DOCTYPE html>");System.out.println("<html>");System.out.pr
 		int typeleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int typeright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String type = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
- structure = "<hr/>";
-    structure = structure + "<A NAME=\"rest\">";structure = structure + "<code>";structure = structure +  "<SPAN CLASS=\"palres\">";
+ structure = "<hr/>\n";
+    structure = structure + "<A NAME=\"rest\">\n";structure = structure + "<code>\n";structure = structure +  "<SPAN CLASS=\"palres\">";
     switch(type){
         case "v": structure = structure + "void </SPAN>";header = "void "; break;
         case "i": structure = structure + "int </SPAN>";header = "int "; break;
@@ -533,7 +533,7 @@ System.out.println("<!DOCTYPE html>");System.out.println("<html>");System.out.pr
 		int restpartleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int restpartright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String restpart = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		structure = structure + "</code>";RESULT=structure;
+		structure = structure + "</code>\n";RESULT=structure;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("PART",19, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -545,8 +545,8 @@ System.out.println("<!DOCTYPE html>");System.out.println("<html>");System.out.pr
 		int ident1left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int ident1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String ident1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-structure = "<hr/><code>"; 
-    structure = structure +  "<SPAN CLASS=\"palres\">struct</SPAN><SPAN CLASS=\"ident\"> "+ident1+"</SPAN> {";
+structure = "<hr/>\n<code>\n"; 
+    structure = structure +  "<SPAN CLASS=\"palres\">struct</SPAN><SPAN CLASS=\"ident\"> "+ident1+"</SPAN><BR/>\n {\n";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$2",23, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -560,7 +560,7 @@ structure = "<hr/><code>";
 		int ident1left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)).left;
 		int ident1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)).right;
 		String ident1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-5)).value;
-		structure = structure + "};"; structure = structure +  "</code>";structure = structure +  "<BR/>";RESULT=structure; 
+		structure = structure + "};"; structure = structure +  "</code>\n";structure = structure +  "<BR/>\n";RESULT=structure; 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("PART",19, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -600,7 +600,7 @@ structure = "<hr/><code>";
     }
     resheaders[headers.length]=header;
     headers = resheaders;
-    structure = structure + ")<BR/>";
+    structure = structure + ")<BR/>\n";
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$4",25, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -621,8 +621,8 @@ structure = "<hr/><code>";
 		int blqleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int blqright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String blq = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		structure = structure + "<A HREF=\"#"+ident1+"\">Comienzo de la función</A>";
-    structure = structure + " <A HREF=\"#inicio\">Comienzo de la página</A>"; structure = structure + "<BR/>";
+		structure = structure + "<A HREF=\"#"+ident1+"\">Comienzo de la función</A>\n";
+    structure = structure + " <A HREF=\"#inicio\">Comienzo de la página</A>\n"; structure = structure + "<BR/>\n";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("RESTPART",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -631,7 +631,7 @@ structure = "<hr/><code>";
           case 12: // NT$5 ::= 
             {
               String RESULT =null;
-structure = structure + "{";
+structure = structure + "{\n";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$5",26, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -645,7 +645,7 @@ structure = structure + "{";
 		int sentlistleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int sentlistright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String sentlist = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		structure = structure + "}<BR/>";
+		structure = structure + "}<BR/>\n";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("BLQ",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -755,7 +755,7 @@ structure = structure + "<DIV style=\"text-indent: .5cm\">";
 		int sentleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int sentright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String sent = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		structure = structure + "</DIV>";RESULT = sent;
+		structure = structure + "</DIV>\n";RESULT = sent;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SENTLIST",3, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -778,7 +778,7 @@ structure = structure + "<DIV style=\"text-indent: .5cm\">";
 		int sentleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int sentright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String sent = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		structure = structure  + "</DIV>";RESULT = sent;
+		structure = structure  + "</DIV>\n";RESULT = sent;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SENTLIST",3, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -841,7 +841,7 @@ structure = structure + " = ";
 		int ident1left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int ident1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String ident1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		structure = structure + ";";
+		structure = structure + ident1+";";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SENT",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -940,7 +940,7 @@ structure = structure + "if (";
 		int lcondleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
 		int lcondright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
 		String lcond = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-structure = structure + ") then";structure = structure + "<BR/>";RESULT = lcond;
+structure = structure + ") then";structure = structure + "<BR/>\n";RESULT = lcond;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$15",36, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -955,7 +955,7 @@ structure = structure + ") then";structure = structure + "<BR/>";RESULT = lcond;
 		int blqleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int blqright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String blq = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-structure = structure + "else";structure = structure + "<BR/>"; RESULT = blq;
+structure = structure + "else";structure = structure + "<BR/>\n"; RESULT = blq;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$16",37, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1044,7 +1044,7 @@ lcond = lcond + "; <SPAN CLASS=\"ident\">"+ident2+"</SPAN> = ";RESULT = lcond;
 		int exp1left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int exp1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String exp1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-exp1 = exp1 + ")";exp1 = exp1 + "<BR/>"; RESULT = exp1;
+exp1 = exp1 + ")";exp1 = exp1 + "<BR/>\n"; RESULT = exp1;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$20",41, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1091,7 +1091,7 @@ structure = structure + "while (";
 		int lcondleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int lcondright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String lcond = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-structure = structure + ")";lcond = lcond + "<BR/>";RESULT = lcond;
+structure = structure + ")";lcond = lcond + "<BR/>\n";RESULT = lcond;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$22",43, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1114,7 +1114,7 @@ structure = structure + ")";lcond = lcond + "<BR/>";RESULT = lcond;
           case 46: // NT$23 ::= 
             {
               String RESULT =null;
-structure = structure + "do ";structure = structure + "<BR/>";
+structure = structure + "do ";structure = structure + "<BR/>\n";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$23",44, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1548,9 +1548,9 @@ structure = structure + ", ";String s = ", ";RESULT = s;
 		String ident1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
     switch(type){
-    case "v": structure = structure + "<DIV style=\"text-indent: .5cm\">void "+ident1+";</DIV>"; break;
-    case "i": structure = structure + "<DIV style=\"text-indent: .5cm\">int "+ident1+";</DIV>"; break;
-    case "f": structure = structure + "<DIV style=\"text-indent: .5cm\">float "+ident1+";</DIV>"; break;
+    case "v": structure = structure + "<DIV style=\"text-indent: .5cm\">void "+ident1+";</DIV>\n"; break;
+    case "i": structure = structure + "<DIV style=\"text-indent: .5cm\">int "+ident1+";</DIV>\n"; break;
+    case "f": structure = structure + "<DIV style=\"text-indent: .5cm\">float "+ident1+";</DIV>\n"; break;
     };
               CUP$parser$result = parser.getSymbolFactory().newSymbol("LFIELD",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1568,9 +1568,9 @@ structure = structure + ", ";String s = ", ";RESULT = s;
 		String ident1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
     switch(type){
-    case "v": structure = structure + "<DIV style=\"text-indent: .5cm\">void "+ident1+";</DIV>"; break;
-    case "i": structure = structure + "<DIV style=\"text-indent: .5cm\">int "+ident1+";</DIV>"; break;
-    case "f": structure = structure + "<DIV style=\"text-indent: .5cm\">float "+ident1+";</DIV>"; break;
+    case "v": structure = structure + "<DIV style=\"text-indent: .5cm\">void "+ident1+";</DIV>\n"; break;
+    case "i": structure = structure + "<DIV style=\"text-indent: .5cm\">int "+ident1+";</DIV>\n"; break;
+    case "f": structure = structure + "<DIV style=\"text-indent: .5cm\">float "+ident1+";</DIV>\n"; break;
     };
               CUP$parser$result = parser.getSymbolFactory().newSymbol("LFIELD",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
