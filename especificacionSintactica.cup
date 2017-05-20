@@ -8,6 +8,7 @@ parser code{:
     String[] functions;
     String actualHeader;
     String[] headers = new String[0];
+    String[] variables = new String[0];
     public void syntax_error(Symbol s){
         System.out.println("compiler has detected a syntax error at line " + s.left 
         + " column " + s.right);
@@ -129,8 +130,34 @@ SENT::= TYPE:type {:
     case "v": structure = structure + "<SPAN CLASS=\"palres\">void</SPAN>  "; break;
     case "i": structure = structure + "<SPAN CLASS=\"palres\">int</SPAN> "; break;
     case "f": structure = structure + "<SPAN CLASS=\"palres\">float</SPAN> "; break;
-    };:} LID:ident1 semicolon {:structure = structure + ident1+";";:} 
-| ident:ident1 equal  {:structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a> = ";:} 
+    };:} LID:ident1 semicolon {:
+    boolean repeated = false;
+    for(int i=0;i<variables.length;i++){
+        if(ident1.split(">")[2].split("<")[0].equals(variables[i])){
+            repeated=true;
+        }
+    }
+    if(!repeated){
+        String[] res = new String[variables.length+1];
+        for(int i=0;i<variables.length;i++){
+            res[i]=variables[i];
+        }
+        res[variables.length]=ident1.split(">")[2].split("<")[0];
+        variables = res;
+    }
+    structure = structure + ident1+";";
+:} 
+| ident:ident1 equal  {:
+    boolean isVariable=false;
+    for(int i=0;i<variables.length;i++){
+        if(variables[i].equals(ident1)){
+            isVariable = true;
+            structure = structure + "<a href=\"#"+actualHeader+":"+ident1+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a> = ";
+        }
+    }
+    if (!isVariable){   
+        structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a> = ";
+    }:} 
     EXP:exp semicolon {:structure = structure + ";";RESULT = exp;:} 
 | ident:ident1 left_parenthesis {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>(";:} LEXP:lexp right_parenthesis semicolon {:structure = structure + ");";RESULT = lexp;:} 
 | return_token {:structure = structure + "<SPAN CLASS=\"palres\">return</SPAN> ";:} EXP semicolon {:structure = structure + ";";:};
@@ -186,7 +213,17 @@ FACTOR ::= ident:ident1 left_parenthesis {:
     structure = structure + "<SPAN CLASS=\"cte\">"+const1+"</SPAN>";:} 
 | constlit: const1 {:
     structure = structure + "<SPAN CLASS=\"cte\">"+const1+"</SPAN>" ;:} 
-| ID:id {:structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+id+"</SPAN></a>";:};
+| ID:id {:
+    boolean isVariable=false;
+    for(int i=0;i<variables.length;i++){
+        if(variables[i].equals(id)){
+            isVariable = true;
+            structure = structure + "<a href=\"#"+actualHeader+":"+id+"\"><SPAN CLASS=\"id\">"+id+"</SPAN></a>";
+        }
+    }
+    if (!isVariable){   
+        structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+id+"</SPAN></a>";
+    }:};
 
 LFIELD ::= LFIELD TYPE:type LID:ident1 semicolon {:
     switch(type){
@@ -202,12 +239,24 @@ LFIELD ::= LFIELD TYPE:type LID:ident1 semicolon {:
     };:};
 
 ID ::= ident:ident1 {:RESULT = ident1;:}  
-| ident:ident1 dot ident:ident2 {:structure = structure + "<a href=\"#"+actualHeader+"\">"+ident1+"</a>.<a href=\"#"+actualHeader+"\">"+ident2+"</a>";:};
+| ident:ident1 dot ident:ident2 {:
+
+structure = structure + "<a href=\"#"+ident1+"\">"+ident1+"</a>.<a href=\"#"+ident1+":"+ident2+"\">"+ident2+"</a>";:};
 
 LID ::= ID:ident1 {:RESULT = "<a><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a>";:}  
 | LID:lid1 comma ID:id1 {:RESULT = lid1 + ", <a><SPAN CLASS=\"ident\">"+id1+"</SPAN></a>";:};
 
-ID ::= ident:ident1 LDIM:ldim1 {:structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a>"+ldim1;:};
+ID ::= ident:ident1 LDIM:ldim1 {:
+    boolean isVariable=false;
+    for(int i=0;i<variables.length;i++){
+        if(variables[i].equals(ident1)){
+            isVariable = true;
+            structure = structure + "<a href=\"#"+actualHeader+":"+ident1+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a>+ldim1";
+        }
+    }
+    if (!isVariable){   
+        structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a>+ldim1";
+    }:};
 
 LDIM ::= LDIM:ldim1 left_squarebracket constint:const1 right_squarebracket {:structure = structure + "["+const1+"]";:}
 | left_squarebracket constint:const1 right_squarebracket {:structure = structure + "["+const1+"]";:};

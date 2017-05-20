@@ -382,6 +382,7 @@ public class parser extends java_cup.runtime.lr_parser {
     String[] functions;
     String actualHeader;
     String[] headers = new String[0];
+    String[] variables = new String[0];
     public void syntax_error(Symbol s){
         System.out.println("compiler has detected a syntax error at line " + s.left 
         + " column " + s.right);
@@ -841,7 +842,23 @@ structure = structure + " = ";
 		int ident1left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int ident1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String ident1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		structure = structure + ident1+";";
+		
+    boolean repeated = false;
+    for(int i=0;i<variables.length;i++){
+        if(ident1.split(">")[2].split("<")[0].equals(variables[i])){
+            repeated=true;
+        }
+    }
+    if(!repeated){
+        String[] res = new String[variables.length+1];
+        for(int i=0;i<variables.length;i++){
+            res[i]=variables[i];
+        }
+        res[variables.length]=ident1.split(">")[2].split("<")[0];
+        variables = res;
+    }
+    structure = structure + ident1+";";
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SENT",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -853,7 +870,17 @@ structure = structure + " = ";
 		int ident1left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int ident1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String ident1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a> = ";
+
+    boolean isVariable=false;
+    for(int i=0;i<variables.length;i++){
+        if(variables[i].equals(ident1)){
+            isVariable = true;
+            structure = structure + "<a href=\"#"+actualHeader+":"+ident1+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a> = ";
+        }
+    }
+    if (!isVariable){   
+        structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a> = ";
+    }
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$11",32, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1531,7 +1558,17 @@ structure = structure + ", ";String s = ", ";RESULT = s;
 		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+id+"</SPAN></a>";
+		
+    boolean isVariable=false;
+    for(int i=0;i<variables.length;i++){
+        if(variables[i].equals(id)){
+            isVariable = true;
+            structure = structure + "<a href=\"#"+actualHeader+":"+id+"\"><SPAN CLASS=\"id\">"+id+"</SPAN></a>";
+        }
+    }
+    if (!isVariable){   
+        structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+id+"</SPAN></a>";
+    }
               CUP$parser$result = parser.getSymbolFactory().newSymbol("FACTOR",6, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1598,7 +1635,9 @@ structure = structure + ", ";String s = ", ";RESULT = s;
 		int ident2left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int ident2right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String ident2 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		structure = structure + "<a href=\"#"+actualHeader+"\">"+ident1+"</a>.<a href=\"#"+actualHeader+"\">"+ident2+"</a>";
+		
+
+structure = structure + "<a href=\"#"+ident1+"\">"+ident1+"</a>.<a href=\"#"+ident1+":"+ident2+"\">"+ident2+"</a>";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("ID",13, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1640,7 +1679,17 @@ structure = structure + ", ";String s = ", ";RESULT = s;
 		int ldim1left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int ldim1right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String ldim1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a>"+ldim1;
+		
+    boolean isVariable=false;
+    for(int i=0;i<variables.length;i++){
+        if(variables[i].equals(ident1)){
+            isVariable = true;
+            structure = structure + "<a href=\"#"+actualHeader+":"+ident1+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a>+ldim1";
+        }
+    }
+    if (!isVariable){   
+        structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a>+ldim1";
+    }
               CUP$parser$result = parser.getSymbolFactory().newSymbol("ID",13, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
