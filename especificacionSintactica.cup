@@ -159,7 +159,17 @@ SENT::= TYPE:type {:
         structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a> = ";
     }:} 
     EXP:exp semicolon {:structure = structure + ";";RESULT = exp;:} 
-| ident:ident1 left_parenthesis {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>(";:} LEXP:lexp right_parenthesis semicolon {:structure = structure + ");";RESULT = lexp;:} 
+| ident:ident1 left_parenthesis {:
+    boolean isFunction=false;
+    for(int i=0;i<headers.length;i++){
+        if(headers[i].split(" ")[1].equals(ident1)){
+            isFunction = true;
+            structure = structure + "<A HREF=\"#"+ident1+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></A>(";
+        }
+    }
+    if (!isFunction){   
+        structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>(";
+    }:} LEXP:lexp right_parenthesis semicolon {:structure = structure + ");";RESULT = lexp;:} 
 | return_token {:structure = structure + "<SPAN CLASS=\"palres\">return</SPAN> ";:} EXP semicolon {:structure = structure + ";";:};
 
 SENT ::= if_token left_parenthesis {:structure = structure + "if (";:}LCOND:lcond right_parenthesis then_token {:structure = structure + ") then";structure = structure + "<BR/>\n";RESULT = lcond;:} BLQ:blq else_token {:structure = structure + "else";structure = structure + "<BR/>\n"; RESULT = blq;:} BLQ
@@ -221,7 +231,7 @@ FACTOR ::= ident:ident1 left_parenthesis {:
             structure = structure + "<a href=\"#"+actualHeader+":"+id+"\"><SPAN CLASS=\"id\">"+id+"</SPAN></a>";
         }
     }
-    if (!isVariable){   
+    if (!isVariable && id!=null) {   
         structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+id+"</SPAN></a>";
     }:};
 
