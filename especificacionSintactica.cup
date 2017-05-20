@@ -204,7 +204,7 @@ EXP ::= EXP OP:op {:
 OP ::= addition_sign {:RESULT = "as";:} | substraction_sign {:RESULT = "ss";:} | multiplication_sign {:RESULT = "ms";:}| slash {:RESULT = "s";:}| percent{:RESULT = "p";:};
 
 FACTOR ::= ident:ident1 left_parenthesis {:
-    structure = structure + "<SPAN CLASS=\"ident\">"+ident1 +"</SPAN> (";:}LEXP:lexp right_parenthesis {:structure = structure + ")" ; RESULT = lexp;:} 
+    structure = structure + "<A HREF=\"#"+ident1+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></A>(";:}LEXP:lexp right_parenthesis {:structure = structure + ")" ; RESULT = lexp;:} 
 | left_parenthesis {:
     structure = structure + "(";:}EXP:exp right_parenthesis {:structure = structure + ")";RESULT = exp;:}
 | constint:const1 {:
@@ -248,7 +248,7 @@ LID ::= ID:ident1 {:RESULT = "<a><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a>";:}
 
 ID ::= ident:ident1 LDIM:ldim1 {:
     boolean isVariable=false;
-    for(int i=0;i<variables.length;i++){
+    for(int i=0;i<variables.length-1;i++){
         if(variables[i].equals(ident1)){
             isVariable = true;
             structure = structure + "<a href=\"#"+actualHeader+":"+ident1+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a>+ldim1";
