@@ -1476,7 +1476,7 @@ structure = structure + ", ";String s = ", ";RESULT = s;
 		int ident1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String ident1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 
-    structure = structure + "<SPAN CLASS=\"ident\">"+ident1 +"</SPAN> (";
+    structure = structure + "<A HREF=\"#"+ident1+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></A>(";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$30",51, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1691,7 +1691,7 @@ structure = structure + "<a href=\"#"+ident1+"\">"+ident1+"</a>.<a href=\"#"+ide
 		String ldim1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
     boolean isVariable=false;
-    for(int i=0;i<variables.length;i++){
+    for(int i=0;i<variables.length-1;i++){
         if(variables[i].equals(ident1)){
             isVariable = true;
             structure = structure + "<a href=\"#"+actualHeader+":"+ident1+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a>+ldim1";
