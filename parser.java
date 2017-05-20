@@ -511,7 +511,7 @@ System.out.println("<!DOCTYPE html>");System.out.println("<html>");System.out.pr
 		int typeright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String type = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
  structure = "<hr/>\n";
-    structure = structure + "<A NAME=\"rest\">\n";structure = structure + "<code>\n";structure = structure +  "<SPAN CLASS=\"palres\">";
+    structure = structure + "<A NAME=\""+actualHeader+"\">\n";structure = structure + "<code>\n";structure = structure +  "<SPAN CLASS=\"palres\">";
     switch(type){
         case "v": structure = structure + "void </SPAN>";header = "void "; break;
         case "i": structure = structure + "int </SPAN>";header = "int "; break;
