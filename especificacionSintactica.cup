@@ -85,7 +85,7 @@ PART ::= TYPE:type {: structure = "<hr/>\n";
 
 RESTPART ::= ident:ident1 left_parenthesis {:
     header = header + ident1;
-    structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN> (";
+    structure = structure + "<a href=\"#"+ident1+"><SPAN CLASS=\"ident\">"+ident1+"</SPAN> </a>(";
     actualHeader = ident1;
     :} LISTPARAM:listparam right_parenthesis {:
     String[] resheaders = new String[headers.length+1];    
