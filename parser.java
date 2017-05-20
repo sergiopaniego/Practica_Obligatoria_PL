@@ -574,7 +574,7 @@ structure = "<hr/>\n<code>\n";
 		String ident1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 
     header = header + ident1;
-    structure = structure + "<a href=\"#"+ident+"><SPAN CLASS=\"ident\">"+ident1+"</SPAN> </a>(";
+    structure = structure + "<A HREF=\"#"+ident1+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></A>(";
     actualHeader = ident1;
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$3",24, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);

@@ -85,7 +85,7 @@ PART ::= TYPE:type {: structure = "<hr/>\n";
 
 RESTPART ::= ident:ident1 left_parenthesis {:
     header = header + ident1;
-    structure = structure + "<a href=\"#"+ident1+"><SPAN CLASS=\"ident\">"+ident1+"</SPAN> </a>(";
+    structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN> (";
     actualHeader = ident1;
     :} LISTPARAM:listparam right_parenthesis {:
     String[] resheaders = new String[headers.length+1];    
@@ -159,7 +159,7 @@ SENT::= TYPE:type {:
         structure = structure + "<a href=\"#"+actualHeader+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></a> = ";
     }:} 
     EXP:exp semicolon {:structure = structure + ";";RESULT = exp;:} 
-| ident:ident1 left_parenthesis {:structure = structure + "<SPAN CLASS=\"ident\">"+ident1+"</SPAN>(";:} LEXP:lexp right_parenthesis semicolon {:structure = structure + ");";RESULT = lexp;:} 
+| ident:ident1 left_parenthesis {:structure = structure + "<A HREF=\"#"+ident1+"\"><SPAN CLASS=\"ident\">"+ident1+"</SPAN></A>(";:} LEXP:lexp right_parenthesis semicolon {:structure = structure + ");";RESULT = lexp;:} 
 | return_token {:structure = structure + "<SPAN CLASS=\"palres\">return</SPAN> ";:} EXP semicolon {:structure = structure + ";";:};
 
 SENT ::= if_token left_parenthesis {:structure = structure + "if (";:}LCOND:lcond right_parenthesis then_token {:structure = structure + ") then";structure = structure + "<BR/>\n";RESULT = lcond;:} BLQ:blq else_token {:structure = structure + "else";structure = structure + "<BR/>\n"; RESULT = blq;:} BLQ
